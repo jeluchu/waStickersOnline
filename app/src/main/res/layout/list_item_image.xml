@@ -2,7 +2,7 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/sticker_image"
+    android:id="@+id/ivSticker"
     android:layout_width="80dp"
     android:layout_height="80dp"
     app:srcCompat="@drawable/sticker_error"

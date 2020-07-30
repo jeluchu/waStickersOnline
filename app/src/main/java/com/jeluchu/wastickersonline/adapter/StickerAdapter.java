@@ -52,7 +52,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_sticker, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_sticker, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -115,7 +115,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         if (!file.exists()) {
             viewHolder.rl.setOnClickListener(view -> {
                 Log.d("adapter", "onClick: " + StickerPack.get(viewHolder.getAdapterPosition()).getStickers().size());
-                ((Activity) context).runOnUiThread(
+/*                ((Activity) context).runOnUiThread(
                         () -> {
                             viewHolder.download.setVisibility(View.INVISIBLE);
                             viewHolder.bar.setVisibility(View.VISIBLE);
@@ -150,7 +150,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
                             viewHolder.download.setVisibility(View.INVISIBLE);
                             viewHolder.bar.setVisibility(View.INVISIBLE);
                         }
-                );
+                );*/
 
             });
         } else {
@@ -175,11 +175,11 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.rv_sticker_name);
+/*            name = itemView.findViewById(R.id.rv_sticker_name);
             imone = itemView.findViewById(R.id.sticker_one);
             imtwo = itemView.findViewById(R.id.sticker_two);
             imthree = itemView.findViewById(R.id.sticker_three);
-            imfour = itemView.findViewById(R.id.sticker_four);
+            imfour = itemView.findViewById(R.id.sticker_four);*/
             download = itemView.findViewById(R.id.download);
             cardView = itemView.findViewById(R.id.card_view);
             bar = itemView.findViewById(R.id.progressBar);

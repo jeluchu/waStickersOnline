@@ -9,11 +9,7 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -30,7 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class StickerContentProvider extends ContentProvider {
 
 
@@ -108,7 +103,7 @@ public class StickerContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, String selection,
+    public Cursor query( Uri uri,  String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         final int code = MATCHER.match(uri);
         Log.d(TAG, "query: " + code + uri);
@@ -123,9 +118,8 @@ public class StickerContentProvider extends ContentProvider {
         }
     }
 
-    @Nullable
     @Override
-    public AssetFileDescriptor openAssetFile(@NonNull Uri uri, @NonNull String mode) throws FileNotFoundException {
+    public AssetFileDescriptor openAssetFile( Uri uri, String mode) throws FileNotFoundException {
         MATCHER.match(uri);
         final int matchCode = MATCHER.match(uri);
         final List<String> pathSegments = uri.getPathSegments();
@@ -169,7 +163,7 @@ public class StickerContentProvider extends ContentProvider {
         return null;
     }
 
-    private AssetFileDescriptor fetchFile(@NonNull Uri uri, @NonNull AssetManager am, @NonNull String fileName, @NonNull String identifier) {
+    private AssetFileDescriptor fetchFile( Uri uri,  AssetManager am,  String fileName, String identifier) {
         try {
             File file;
             if(fileName.endsWith(".png")){
@@ -190,7 +184,7 @@ public class StickerContentProvider extends ContentProvider {
 
 
     @Override
-    public String getType(@NonNull Uri uri) {
+    public String getType( Uri uri) {
         final int matchCode = MATCHER.match(uri);
         switch (matchCode) {
             case METADATA_CODE:
@@ -208,7 +202,7 @@ public class StickerContentProvider extends ContentProvider {
         }
     }
 
-    private synchronized void readContentFile(@NonNull Context context) {
+    private synchronized void readContentFile( Context context) {
         if (Hawk.get("sticker_pack", new ArrayList<StickerPack>()) != null) {
             stickerPackList.addAll(Hawk.get("sticker_pack", new ArrayList<StickerPack>()));
         }
@@ -221,11 +215,11 @@ public class StickerContentProvider extends ContentProvider {
         return (List)Hawk.get("sticker_packs",new ArrayList<StickerPack>());
     }
 
-    private Cursor getPackForAllStickerPacks(@NonNull Uri uri) {
+    private Cursor getPackForAllStickerPacks( Uri uri) {
         return getStickerPackInfo(uri, getStickerPackList());
     }
 
-    private Cursor getCursorForSingleStickerPack(@NonNull Uri uri) {
+    private Cursor getCursorForSingleStickerPack( Uri uri) {
         final String identifier = uri.getLastPathSegment();
         for (StickerPack stickerPack : getStickerPackList()) {
             if (identifier.equals(stickerPack.identifier)) {
@@ -236,8 +230,7 @@ public class StickerContentProvider extends ContentProvider {
         return getStickerPackInfo(uri, new ArrayList<StickerPack>());
     }
 
-    @NonNull
-    private Cursor getStickerPackInfo(@NonNull Uri uri, @NonNull List<StickerPack> stickerPackList) {
+    private Cursor getStickerPackInfo( Uri uri,  List<StickerPack> stickerPackList) {
         MatrixCursor cursor = new MatrixCursor(
                 new String[]{
                         STICKER_PACK_IDENTIFIER_IN_QUERY,
@@ -269,8 +262,7 @@ public class StickerContentProvider extends ContentProvider {
         return cursor;
     }
 
-    @NonNull
-    private Cursor getStickersForAStickerPack(@NonNull Uri uri) {
+    private Cursor getStickersForAStickerPack( Uri uri) {
         final String identifier = uri.getLastPathSegment();
         MatrixCursor cursor = new MatrixCursor(new String[]{STICKER_FILE_NAME_IN_QUERY, STICKER_FILE_EMOJI_IN_QUERY});
         for (StickerPack stickerPack : getStickerPackList()) {
@@ -286,17 +278,17 @@ public class StickerContentProvider extends ContentProvider {
 
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection, String[] selectionArgs) {
+    public int delete( Uri uri, String selection, String[] selectionArgs) {
         throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
-    public Uri insert(@NonNull Uri uri, ContentValues values) {
+    public Uri insert( Uri uri, ContentValues values) {
         throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection,
+    public int update( Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         throw new UnsupportedOperationException("Not supported");
     }
