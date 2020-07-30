@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">stickers</string>
+
+    <string name="json_link">https://aruppi.jeluchu.xyz/res/stickers/example.json</string>
+</resources>
