@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.adapter
+package com.jeluchu.wastickersonline.features.stickerlist.adapter
 
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +18,9 @@ class StickersDetailsAdapter : RecyclerView.Adapter<StickersDetailsAdapter.ViewH
     internal var clickListener: (StickerView) -> Unit = { }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
-            parent.inflate(R.layout.list_item_image)
-        )
+            ViewHolder(
+                    parent.inflate(R.layout.list_item_image)
+            )
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(collection[position], clickListener)
     override fun getItemCount() = collection.size
 

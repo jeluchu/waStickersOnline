@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.activity
+package com.jeluchu.wastickersonline.features.stickerlist.view
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -7,10 +7,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -19,12 +17,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.jeluchu.wastickersonline.BuildConfig
-import com.jeluchu.wastickersonline.MainActivity
-import com.jeluchu.wastickersonline.MainActivity.Companion.EXTRA_STICKER_PACK_AUTHORITY
-import com.jeluchu.wastickersonline.MainActivity.Companion.EXTRA_STICKER_PACK_ID
-import com.jeluchu.wastickersonline.MainActivity.Companion.EXTRA_STICKER_PACK_NAME
+import com.jeluchu.wastickersonline.features.stickerlist.view.MainActivity.Companion.EXTRA_STICKER_PACK_AUTHORITY
+import com.jeluchu.wastickersonline.features.stickerlist.view.MainActivity.Companion.EXTRA_STICKER_PACK_ID
+import com.jeluchu.wastickersonline.features.stickerlist.view.MainActivity.Companion.EXTRA_STICKER_PACK_NAME
 import com.jeluchu.wastickersonline.R
-import com.jeluchu.wastickersonline.adapter.StickersDetailsAdapter
+import com.jeluchu.wastickersonline.features.stickerlist.adapter.StickersDetailsAdapter
 import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPackView
 import com.jeluchu.wastickersonline.features.stickerlist.models.StickerView
 import kotlinx.android.synthetic.main.activity_sticker_details.*
@@ -34,7 +31,6 @@ import java.util.*
 
 class StickerDetailsActivity : AppCompatActivity() {
 
-    var toolbar: Toolbar? = null
     var stickers: List<StickerView>? = null
     var strings: ArrayList<String>? = null
     var stickerPackView: StickerPackView? = null
@@ -44,8 +40,6 @@ class StickerDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sticker_details)
-
-        toolbar = findViewById(R.id.toolbar)
 
         if (intent.extras != null) {
             stickerPackView = intent.getSerializableExtra("stickerpack") as StickerPackView?
@@ -88,7 +82,7 @@ class StickerDetailsActivity : AppCompatActivity() {
                                     canvas.height / 2 - resource.height / 2
                                             .toFloat())
                             canvas.drawBitmap(resource, matrix, null)
-                            MainActivity.SaveTryImage(bitmap1, trayImageFile, stickerPackView!!.identifier.toString())
+                            MainActivity.saveTryImage(bitmap1, trayImageFile, stickerPackView!!.identifier.toString())
                             return true
                         }
                     }).submit()
@@ -116,7 +110,7 @@ class StickerDetailsActivity : AppCompatActivity() {
                                         canvas.height / 2 - resource.height / 2
                                                 .toFloat())
                                 canvas.drawBitmap(resource, matrix, null)
-                                MainActivity.SaveImage(bitmap1, imageFile, stickerPackView!!.identifier)
+                                MainActivity.saveImage(bitmap1, imageFile, stickerPackView!!.identifier)
                                 return true
                             }
                         }).submit()
