@@ -12,6 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+fun getLastBitFromUrl(url: String): String =
+        url.replaceFirst(".*/([^/?]+).*".toRegex(), "$1")
+
 fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this, it)
     intent.putExtras(Bundle().apply(extras))

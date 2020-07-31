@@ -1,6 +1,6 @@
 package com.jeluchu.wastickersonline.core.di
 
-import com.jeluchu.wastickersonline.adapter.StickersDetailsAdapter
+import com.jeluchu.wastickersonline.features.stickerlist.adapter.StickersDetailsAdapter
 import com.jeluchu.wastickersonline.core.extensions.context.ContextHandler
 import com.jeluchu.wastickersonline.core.extensions.retrofit.RetrofitClient
 import com.jeluchu.wastickersonline.core.platform.NetworkHandler

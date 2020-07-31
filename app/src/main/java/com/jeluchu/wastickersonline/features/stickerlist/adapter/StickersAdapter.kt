@@ -33,7 +33,7 @@ class StickersAdapter : RecyclerView.Adapter<StickersAdapter.ViewHolder>(){
             itemView.ivThirdSticker.load(stickerView.stickers[2].imageFile)
 
             if (stickerView.stickers.size > 3) {
-                itemView.ivFourSticker.load(stickerView.stickers[2].imageFile)
+                itemView.ivFourSticker.load(stickerView.stickers[3].imageFile)
             } else { itemView.ivFourSticker.visibility = View.GONE }
 
             itemView.setOnClickListener { clickListener(stickerView)}
