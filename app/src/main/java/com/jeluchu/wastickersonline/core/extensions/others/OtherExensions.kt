@@ -1,25 +1,17 @@
-package com.jeluchu.wastickersonline.core.extensions.context
+package com.jeluchu.wastickersonline.core.extensions.others
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 fun getLastBitFromUrl(url: String): String =
         url.replaceFirst(".*/([^/?]+).*".toRegex(), "$1")
-
-fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
-    val intent = Intent(this, it)
-    intent.putExtras(Bundle().apply(extras))
-    startActivity(intent)
-}
 
 fun ViewGroup.inflate(layoutRes: Int): View =
     LayoutInflater.from(context).inflate(layoutRes, this, false)

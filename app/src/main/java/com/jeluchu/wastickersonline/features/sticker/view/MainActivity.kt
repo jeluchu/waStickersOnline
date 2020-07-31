@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.features.stickerlist.view
+package com.jeluchu.wastickersonline.features.sticker.view
 
 import android.Manifest
 import android.content.Intent
@@ -12,9 +12,9 @@ import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.exception.Failure
 import com.jeluchu.wastickersonline.core.extensions.lifecycle.failure
 import com.jeluchu.wastickersonline.core.extensions.lifecycle.observe
-import com.jeluchu.wastickersonline.features.stickerlist.adapter.StickersAdapter
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPackView
-import com.jeluchu.wastickersonline.features.stickerlist.viewmodel.StickersViewModel
+import com.jeluchu.wastickersonline.features.sticker.adapter.StickersAdapter
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
+import com.jeluchu.wastickersonline.features.sticker.viewmodel.StickersViewModel
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -43,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         rvStickersList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvStickersList.adapter = adapterStickers
+
+        onRefresh()
+
     }
 
     private fun initListeners() {
@@ -54,10 +57,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadStickers() = getStickersView.getStickers()
+    private fun onRefresh() { srlStickers.setOnRefreshListener { loadStickers() } }
 
     private fun renderStickersList(stickersView: List<StickerPackView>?) {
         val stickerPack : ArrayList<StickerPackView> = stickersView as ArrayList<StickerPackView>
         Hawk.put<ArrayList<StickerPackView>>("sticker_packs", stickerPack)
+
+        srlStickers.isEnabled = true
+        srlStickers.isRefreshing = false
 
         adapterStickers.collection = stickersView.orEmpty()
     }

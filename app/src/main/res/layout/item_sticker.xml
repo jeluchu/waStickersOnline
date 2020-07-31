@@ -7,10 +7,9 @@
     android:layout_margin="6dp"
     android:layout_marginBottom="4dp"
     android:layout_weight="1"
-    android:background="@color/white"
+    android:background="@color/grey"
     app:cardCornerRadius="4dp"
-    app:cardElevation="2dp"
-    android:id="@+id/card_view">
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +17,8 @@
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -27,15 +27,16 @@
             android:layout_margin="6dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/tvPackStickerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_weight="1"
                 tools:text="demo"
+
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="20sp" />
 
@@ -43,7 +44,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -55,7 +55,8 @@
                     android:layout_marginRight="6dp"
                     android:layout_marginBottom="6dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/sticker_error" />
+                    app:srcCompat="@drawable/sticker_error"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/ivSecondSticker"
@@ -63,7 +64,8 @@
                     android:layout_height="48dp"
                     android:layout_margin="6dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/sticker_error" />
+                    app:srcCompat="@drawable/sticker_error"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/ivThirdSticker"
@@ -71,63 +73,35 @@
                     android:layout_height="48dp"
                     android:layout_margin="6dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/sticker_error" />
+                    android:src="@drawable/sticker_error"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/ivFourSticker"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_margin="6dp"
-                    app:srcCompat="@drawable/sticker_error" />
+                    app:srcCompat="@drawable/sticker_error"
+                    tools:ignore="ContentDescription" />
 
+                <ImageView
+                    android:id="@+id/ivFiveSticker"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="6dp"
+                    app:srcCompat="@drawable/sticker_error"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/ivSixSticker"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="6dp"
+                    app:srcCompat="@drawable/sticker_error"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
         </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/download_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            tools:ignore="ObsoleteLayoutParam">
-
-        <ImageView
-            android:id="@+id/download"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:scaleType="center"
-            android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_arrow_downward"
-            tools:ignore="ObsoleteLayoutParam"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"/>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="@color/colorAccent"
-            android:maxHeight="30dp"
-            android:minHeight="30dp"
-            android:minWidth="30dp"
-            android:maxWidth="30dp"
-            android:visibility="gone"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true" />
-
-        </RelativeLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

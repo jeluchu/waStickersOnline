@@ -1,12 +1,12 @@
-package com.jeluchu.wastickersonline.features.stickerlist.repository
+package com.jeluchu.wastickersonline.features.sticker.repository
 
 import com.jeluchu.wastickersonline.core.exception.Failure
 import com.jeluchu.wastickersonline.core.functional.Either
 import com.jeluchu.wastickersonline.core.extensions.request
 import com.jeluchu.wastickersonline.core.platform.NetworkHandler
-import com.jeluchu.wastickersonline.features.stickerlist.models.PacksEntity
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPack
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPackEntity
+import com.jeluchu.wastickersonline.features.sticker.models.PacksEntity
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPackEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

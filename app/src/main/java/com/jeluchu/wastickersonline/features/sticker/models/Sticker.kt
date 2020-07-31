@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.features.stickerlist.models
+package com.jeluchu.wastickersonline.features.sticker.models
 
 data class Sticker(
     val emojis: List<String>?,
@@ -12,14 +12,5 @@ data class Sticker(
             imageFile ?: "",
             imageFileThum ?: ""
         )
-
-    companion object {
-        fun empty() =
-            Sticker(
-                emptyList(),
-                "",
-                ""
-            )
-    }
 
 }

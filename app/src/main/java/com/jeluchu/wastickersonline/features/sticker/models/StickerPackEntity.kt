@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.features.stickerlist.models
+package com.jeluchu.wastickersonline.features.sticker.models
 
 
 import com.google.gson.annotations.SerializedName
@@ -45,23 +45,5 @@ data class StickerPackEntity(
                     stickers?.map { it.toStickers() } ?: emptyList(),
                     trayImageFile ?: ""
             )
-
-    companion object {
-        fun empty() =
-                StickerPackEntity(
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        0,
-                        "",
-                        "",
-                        "",
-                        emptyList(),
-                        ""
-                )
-    }
 
 }

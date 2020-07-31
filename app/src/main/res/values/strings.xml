@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">stickers</string>
-
-    <string name="json_link">https://aruppi.jeluchu.xyz/res/stickers/example.json</string>
+    <string name="app_name">WaStickersOnline</string>
+    <string name="add_to_whatsapp">Add to WhatsApp</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.provider
+package com.jeluchu.wastickersonline.features.sticker.provider
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -11,8 +11,8 @@ import android.os.ParcelFileDescriptor
 import android.text.TextUtils
 import android.util.Log
 import com.jeluchu.wastickersonline.BuildConfig
-import com.jeluchu.wastickersonline.core.extensions.context.getLastBitFromUrl
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPackView
+import com.jeluchu.wastickersonline.core.extensions.others.getLastBitFromUrl
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import com.orhanobut.hawk.Hawk
 import java.io.File
 import java.io.FileNotFoundException

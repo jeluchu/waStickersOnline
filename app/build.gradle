@@ -25,6 +25,9 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     buildTypes {
+        debug {
+            debuggable false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -41,6 +44,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     implementation 'com.orhanobut:hawk:2.0.1'
     implementation 'io.coil-kt:coil:0.11.0'

@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.features.stickerlist.viewmodel
+package com.jeluchu.wastickersonline.features.sticker.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -6,8 +6,8 @@ import com.jeluchu.wastickersonline.core.extensions.job.cancelIfActive
 import com.jeluchu.wastickersonline.core.functional.map
 import com.jeluchu.wastickersonline.core.interactor.UseCase
 import com.jeluchu.wastickersonline.core.platform.BaseViewModel
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPackView
-import com.jeluchu.wastickersonline.features.stickerlist.usecase.GetStickers
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
+import com.jeluchu.wastickersonline.features.sticker.usecase.GetStickers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map

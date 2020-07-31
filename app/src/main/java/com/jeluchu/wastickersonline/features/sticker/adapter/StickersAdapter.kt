@@ -1,11 +1,11 @@
-package com.jeluchu.wastickersonline.features.stickerlist.adapter
+package com.jeluchu.wastickersonline.features.sticker.adapter
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import com.jeluchu.wastickersonline.core.extensions.context.inflate
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPackView
+import com.jeluchu.wastickersonline.core.extensions.others.inflate
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import com.jeluchu.wastickersonline.R
 import kotlinx.android.synthetic.main.item_sticker.view.*
 import kotlin.properties.Delegates
@@ -35,6 +35,18 @@ class StickersAdapter : RecyclerView.Adapter<StickersAdapter.ViewHolder>(){
             if (stickerView.stickers.size > 3) {
                 itemView.ivFourSticker.load(stickerView.stickers[3].imageFile)
             } else { itemView.ivFourSticker.visibility = View.GONE }
+
+            if (stickerView.stickers.size > 4) {
+                itemView.ivFourSticker.load(stickerView.stickers[4].imageFile)
+            } else { itemView.ivFourSticker.visibility = View.GONE }
+
+            if (stickerView.stickers.size > 5) {
+                itemView.ivFiveSticker.load(stickerView.stickers[5].imageFile)
+            } else { itemView.ivFiveSticker.visibility = View.GONE }
+
+            if (stickerView.stickers.size > 6) {
+                itemView.ivSixSticker.load(stickerView.stickers[6].imageFile)
+            } else { itemView.ivSixSticker.visibility = View.GONE }
 
             itemView.setOnClickListener { clickListener(stickerView)}
         }

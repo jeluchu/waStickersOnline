@@ -1,6 +1,6 @@
 package com.jeluchu.wastickersonline.core.di
 
-import com.jeluchu.wastickersonline.features.stickerlist.repository.StickersRepository
+import com.jeluchu.wastickersonline.features.sticker.repository.StickersRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {

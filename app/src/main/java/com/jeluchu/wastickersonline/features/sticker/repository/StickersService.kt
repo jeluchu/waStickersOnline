@@ -1,6 +1,6 @@
-package com.jeluchu.wastickersonline.features.stickerlist.repository
+package com.jeluchu.wastickersonline.features.sticker.repository
 
-import com.jeluchu.wastickersonline.features.stickerlist.models.PacksEntity
+import com.jeluchu.wastickersonline.features.sticker.models.PacksEntity
 import retrofit2.Call
 import retrofit2.Retrofit
 

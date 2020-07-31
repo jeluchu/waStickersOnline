@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.features.stickerlist.view
+package com.jeluchu.wastickersonline.features.sticker.view
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -17,24 +17,19 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.jeluchu.wastickersonline.BuildConfig
-import com.jeluchu.wastickersonline.features.stickerlist.view.MainActivity.Companion.EXTRA_STICKER_PACK_AUTHORITY
-import com.jeluchu.wastickersonline.features.stickerlist.view.MainActivity.Companion.EXTRA_STICKER_PACK_ID
-import com.jeluchu.wastickersonline.features.stickerlist.view.MainActivity.Companion.EXTRA_STICKER_PACK_NAME
+import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_AUTHORITY
+import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_ID
+import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_NAME
 import com.jeluchu.wastickersonline.R
-import com.jeluchu.wastickersonline.features.stickerlist.adapter.StickersDetailsAdapter
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerPackView
-import com.jeluchu.wastickersonline.features.stickerlist.models.StickerView
+import com.jeluchu.wastickersonline.core.extensions.others.getLastBitFromUrl
+import com.jeluchu.wastickersonline.features.sticker.adapter.StickersDetailsAdapter
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import kotlinx.android.synthetic.main.activity_sticker_details.*
 import org.koin.android.ext.android.inject
-import java.io.File
-import java.util.*
 
 class StickerDetailsActivity : AppCompatActivity() {
 
-    var stickers: List<StickerView>? = null
-    var strings: ArrayList<String>? = null
     var stickerPackView: StickerPackView? = null
-
     private val adapterStickers: StickersDetailsAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,18 +42,7 @@ class StickerDetailsActivity : AppCompatActivity() {
 
         adapterStickers.collection = stickerPackView?.stickers.orEmpty()
 
-        stickers = stickerPackView!!.stickers
-        strings = ArrayList()
         path = filesDir.toString() + "/" + "stickers_asset" + "/" + stickerPackView!!.identifier + "/"
-        val name = getLastBitFromUrl(stickerPackView!!.stickers[0].imageFile).replace(" ", "_")
-        val file = File(path + name)
-        for ((_, imageFile) in stickers!!) {
-            if (!file.exists()) {
-                strings!!.add(getLastBitFromUrl(imageFile))
-            } else {
-                strings!!.add(path + getLastBitFromUrl(imageFile))
-            }
-        }
 
         runOnUiThread {
 
@@ -116,13 +100,8 @@ class StickerDetailsActivity : AppCompatActivity() {
                         }).submit()
             }
 
-
-
-
-
         }
 
-        //adapter = StickesDetailsAdapter(stickers!!, this)
         val gridLayoutManager = GridLayoutManager(this, 4)
         rvStickersPack.layoutManager = gridLayoutManager
         rvStickersPack.adapter = adapterStickers
@@ -136,7 +115,7 @@ class StickerDetailsActivity : AppCompatActivity() {
             try {
                 startActivityForResult(intent, ADD_PACK)
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(this@StickerDetailsActivity, "error", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "No se añadió el paquete de stickers. Si deseas añadirlo, instala o actualiza WhatsApp.", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -145,8 +124,5 @@ class StickerDetailsActivity : AppCompatActivity() {
     companion object {
         private const val ADD_PACK = 200
         var path: String? = null
-        private fun getLastBitFromUrl(url: String): String {
-            return url.replaceFirst(".*/([^/?]+).*".toRegex(), "$1")
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.features.stickerlist.models
+package com.jeluchu.wastickersonline.features.sticker.models
 
 
 import com.google.gson.annotations.SerializedName
@@ -18,14 +18,5 @@ data class StickerEntity(
             imageFile,
             imageFileThum
         )
-
-    companion object {
-        fun empty() =
-            StickerEntity(
-                emptyList(),
-                "",
-                ""
-            )
-    }
 
 }

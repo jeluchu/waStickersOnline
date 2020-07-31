@@ -1,4 +1,4 @@
-package com.jeluchu.wastickersonline.features.stickerlist.models
+package com.jeluchu.wastickersonline.features.sticker.models
 
 data class StickerPack(
         val androidPlayStoreLink: String?,
@@ -30,23 +30,5 @@ data class StickerPack(
                     stickers?.map { it.toStickerView() } ?: emptyList(),
                     trayImageFile ?: ""
             )
-
-    companion object {
-        fun empty() =
-                StickerPack(
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        0,
-                        "",
-                        "",
-                        "",
-                        emptyList(),
-                        ""
-                )
-    }
 
 }
