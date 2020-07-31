@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface StickersApi {
 
-    @GET("example.json")
+    @GET("contents.json")
     fun getStickers(): Call<PacksEntity>
 
 }
