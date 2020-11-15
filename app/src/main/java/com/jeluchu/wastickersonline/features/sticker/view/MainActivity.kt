@@ -1,9 +1,7 @@
 package com.jeluchu.wastickersonline.features.sticker.view
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -12,13 +10,16 @@ import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.exception.Failure
 import com.jeluchu.wastickersonline.core.extensions.lifecycle.failure
 import com.jeluchu.wastickersonline.core.extensions.lifecycle.observe
-import com.jeluchu.wastickersonline.features.sticker.adapter.StickersAdapter
+import com.jeluchu.wastickersonline.core.extensions.others.exitActivityBottom
+import com.jeluchu.wastickersonline.core.extensions.others.openActivity
+import com.jeluchu.wastickersonline.core.extensions.others.openActivityRight
+import com.jeluchu.wastickersonline.core.extensions.others.statusBarColor
+import com.jeluchu.wastickersonline.core.utils.hawk.Hawk
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
+import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersAdapter
 import com.jeluchu.wastickersonline.features.sticker.viewmodel.StickersViewModel
-import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
-import java.io.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,37 +36,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         loadStickers()
-        initListeners()
+
 
         path = "$filesDir/stickers_asset"
 
         permissions
         setContentView(R.layout.activity_main)
+        statusBarColor()
+        initListeners()
         rvStickersList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvStickersList.adapter = adapterStickers
-
-        onRefresh()
 
     }
 
     private fun initListeners() {
         adapterStickers.clickListener = {
-            val intent = Intent(this, StickerDetailsActivity::class.java)
-            intent.putExtra(EXTRA_STICKERPACK, it)
-            startActivity(intent)
+            openActivity(StickerDetailsActivity::class.java) {
+                putParcelable(EXTRA_STICKERPACK, it)
+            }
+            openActivityRight()
         }
     }
 
     private fun loadStickers() = getStickersView.getStickers()
-    private fun onRefresh() { srlStickers.setOnRefreshListener { loadStickers() } }
 
     private fun renderStickersList(stickersView: List<StickerPackView>?) {
         val stickerPack : ArrayList<StickerPackView> = stickersView as ArrayList<StickerPackView>
-        Hawk.put<ArrayList<StickerPackView>>("sticker_packs", stickerPack)
-
-        srlStickers.isEnabled = true
-        srlStickers.isRefreshing = false
-
+        Hawk.put("sticker_packs", stickerPack)
         adapterStickers.collection = stickersView.orEmpty()
     }
     private fun handleFailure(failure: Failure?) { failure.toString() }
@@ -82,6 +79,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        exitActivityBottom()
+    }
+
     companion object {
         const val EXTRA_STICKER_PACK_ID = "sticker_pack_id"
         const val EXTRA_STICKER_PACK_AUTHORITY = "sticker_pack_authority"
@@ -90,37 +92,7 @@ class MainActivity : AppCompatActivity() {
 
         @JvmField
         var path: String? = null
-        @JvmStatic
-        fun saveImage(finalBitmap: Bitmap, name: String, identifier: Int) {
-            val root = "$path/$identifier"
-            val myDir = File(root)
-            myDir.mkdirs()
-            val file = File(myDir, name)
-            if (file.exists()) file.delete()
-            try {
-                val out = FileOutputStream(file)
-                finalBitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
-                out.flush()
-                out.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        @JvmStatic
-        fun saveTryImage(finalBitmap: Bitmap, name: String, identifier: String) {
-            val root = "$path/$identifier"
-            val myDir = File("$root/try")
-            myDir.mkdirs()
-            val fname = name.replace(".png", "").replace(" ", "_") + ".png"
-            val file = File(myDir, fname)
-            if (file.exists()) file.delete()
-            try {
-                val out = FileOutputStream(file)
-                finalBitmap.compress(Bitmap.CompressFormat.PNG, 40, out)
-                out.flush()
-                out.close()
-            } catch (e: Exception) { e.printStackTrace() }
-        }
 
     }
+
 }

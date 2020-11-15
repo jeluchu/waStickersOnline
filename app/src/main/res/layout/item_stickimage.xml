@@ -9,4 +9,5 @@
     tools:layout_editor_absoluteX="54dp"
     tools:layout_editor_absoluteY="163dp"
     android:layout_margin="8dp"
-    android:scaleType="centerInside"/>
+    android:scaleType="centerInside"
+    tools:ignore="ContentDescription" />

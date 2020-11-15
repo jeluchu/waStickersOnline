@@ -1,6 +1,5 @@
 package com.jeluchu.wastickersonline.features.sticker.models
 
-
 import com.google.gson.annotations.SerializedName
 
 data class StickerEntity(

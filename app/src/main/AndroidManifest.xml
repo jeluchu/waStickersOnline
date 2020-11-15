@@ -24,6 +24,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".features.sticker.view.StickerDetailsActivity"
+            android:parentActivityName=".features.sticker.view.MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="UnusedAttribute">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".features.sticker.view.MainActivity" />
+        </activity>
+
         <provider
             android:name="com.jeluchu.wastickersonline.features.sticker.provider.StickerContentProvider"
             android:authorities="${contentProviderAuthority}"
@@ -31,11 +41,6 @@
             android:exported="true"
             android:readPermission="com.whatsapp.sticker.READ" />
 
-        <activity android:name="com.jeluchu.wastickersonline.features.sticker.view.StickerDetailsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.jeluchu.wastickersonline.features.sticker.view.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

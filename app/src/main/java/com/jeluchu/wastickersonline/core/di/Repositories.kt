@@ -4,6 +4,5 @@ import com.jeluchu.wastickersonline.features.sticker.repository.StickersReposito
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    factory<StickersRepository> { StickersRepository.Network(get(), get()) }
-
+    factory<StickersRepository> { StickersRepository.Network(get(), get(), get()) }
 }

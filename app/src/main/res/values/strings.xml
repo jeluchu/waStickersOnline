@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">WaStickersOnline</string>
-    <string name="add_to_whatsapp">Add to WhatsApp</string>
+    <string name="tray_image_content_description">Imagen de la bandeja de paquetes de stickers</string>
+    <string name="add_to_whatsapp">Añadir a WhatsApp</string>
+    <string name="details_pack_already_added">Se añadió el paquete de stickers a WhatsApp</string>
 </resources>

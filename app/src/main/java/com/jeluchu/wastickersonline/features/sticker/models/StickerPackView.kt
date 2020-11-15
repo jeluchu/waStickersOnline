@@ -1,7 +1,10 @@
 package com.jeluchu.wastickersonline.features.sticker.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
+@Parcelize
 data class StickerPackView(
         val androidPlayStoreLink: String?,
         val iosAppStoreLink: String?,
@@ -15,4 +18,4 @@ data class StickerPackView(
         val publisherWebsite: String,
         val stickers: List<StickerView>,
         val trayImageFile: String
-): Serializable
+): Serializable, Parcelable

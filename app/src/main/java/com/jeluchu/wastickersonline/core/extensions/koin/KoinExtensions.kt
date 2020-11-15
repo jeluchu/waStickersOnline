@@ -10,13 +10,17 @@ fun Context.initKoin() {
     startKoin {
         androidLogger()
         androidContext(this@initKoin)
-        modules(listOf(
+
+        koin.loadModules (listOf(
                 networkModule,
+                databaseModule,
                 applicationModule,
                 dataSourceModule,
                 repositoryModule,
                 useCaseModule,
                 viewModelModule
         ))
+        koin.createRootScope ()
+        //modules() (temporarily off)
     }
 }

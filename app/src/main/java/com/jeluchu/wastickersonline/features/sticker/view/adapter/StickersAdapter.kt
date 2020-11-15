@@ -1,12 +1,12 @@
-package com.jeluchu.wastickersonline.features.sticker.adapter
+package com.jeluchu.wastickersonline.features.sticker.view.adapter
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
+import coil.load
+import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.inflate
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
-import com.jeluchu.wastickersonline.R
 import kotlinx.android.synthetic.main.item_sticker.view.*
 import kotlin.properties.Delegates
 

@@ -12,12 +12,11 @@ import android.text.TextUtils
 import android.util.Log
 import com.jeluchu.wastickersonline.BuildConfig
 import com.jeluchu.wastickersonline.core.extensions.others.getLastBitFromUrl
+import com.jeluchu.wastickersonline.core.utils.hawk.Hawk
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
-import com.orhanobut.hawk.Hawk
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.util.*
 
 class StickerContentProvider : ContentProvider() {
 
@@ -53,7 +52,8 @@ class StickerContentProvider : ContentProvider() {
         MATCHER.match(uri)
         val matchCode = MATCHER.match(uri)
         val pathSegments = uri.pathSegments
-        Log.d(TAG, """
+        Log.d(
+                TAG, """
      openFile: $matchCode$uri
      ${uri.authority}
      ${pathSegments[pathSegments.size - 3]}/
@@ -109,14 +109,14 @@ class StickerContentProvider : ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? =
-        when (MATCHER.match(uri)) {
-            METADATA_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
-            METADATA_CODE_FOR_SINGLE_PACK -> "vnd.android.cursor.item/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
-            STICKERS_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + STICKERS
-            STICKERS_ASSET_CODE -> "image/webp"
-            STICKER_PACK_TRAY_ICON_CODE -> "image/png"
-            else -> throw IllegalArgumentException("Unknown URI: $uri")
-        }
+            when (MATCHER.match(uri)) {
+                METADATA_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
+                METADATA_CODE_FOR_SINGLE_PACK -> "vnd.android.cursor.item/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
+                STICKERS_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + STICKERS
+                STICKERS_ASSET_CODE -> "image/png"
+                STICKER_PACK_TRAY_ICON_CODE -> "image/png"
+                else -> throw IllegalArgumentException("Unknown URI: $uri")
+            }
 
     private fun getStickerPackList(): List<StickerPackView> =
             Hawk.get("sticker_packs", ArrayList<StickerPackView>()) as List<StickerPackView>
@@ -183,11 +183,11 @@ class StickerContentProvider : ContentProvider() {
             throw UnsupportedOperationException("Not supported")
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? =
-        throw UnsupportedOperationException("Not supported")
+            throw UnsupportedOperationException("Not supported")
 
     override fun update(uri: Uri, values: ContentValues?, selection: String?,
                         selectionArgs: Array<String>?): Int =
-        throw UnsupportedOperationException("Not supported")
+            throw UnsupportedOperationException("Not supported")
 
     private
 
