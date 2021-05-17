@@ -8,19 +8,19 @@ import org.koin.core.context.startKoin
 
 fun Context.initKoin() {
     startKoin {
-        androidLogger()
+
         androidContext(this@initKoin)
 
-        koin.loadModules (listOf(
-                networkModule,
-                databaseModule,
-                applicationModule,
-                dataSourceModule,
-                repositoryModule,
-                useCaseModule,
-                viewModelModule
-        ))
-        koin.createRootScope ()
-        //modules() (temporarily off)
+        modules(
+            networkModule,
+            databaseModule,
+            applicationModule,
+            dataSourceModule,
+            repositoryModule,
+            useCaseModule,
+            viewModelModule
+        )
+
     }
+
 }
