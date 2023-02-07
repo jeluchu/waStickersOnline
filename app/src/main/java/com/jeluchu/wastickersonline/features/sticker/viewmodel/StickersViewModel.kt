@@ -21,6 +21,10 @@ class StickersViewModel(private val getStickers: GetStickers) : BaseViewModel() 
 
     var getStickersJob: Job? = null
 
+    init {
+        getStickers()
+    }
+
     fun getStickers() {
         getStickersJob.cancelIfActive()
         getStickersJob = viewModelScope.launch {

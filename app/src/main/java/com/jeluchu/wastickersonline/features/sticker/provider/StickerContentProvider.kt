@@ -12,7 +12,8 @@ import android.text.TextUtils
 import android.util.Log
 import com.jeluchu.wastickersonline.BuildConfig
 import com.jeluchu.wastickersonline.core.extensions.others.getLastBitFromUrl
-import com.jeluchu.wastickersonline.core.utils.hawk.Hawk
+import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
+import com.jeluchu.wastickersonline.core.extensions.sharedprefs.initSharedPrefs
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import java.io.File
 import java.io.FileNotFoundException
@@ -20,8 +21,11 @@ import java.io.IOException
 
 class StickerContentProvider : ContentProvider() {
 
+    private val preferences by lazy { SharedPrefsHelpers() }
+
     override fun onCreate(): Boolean {
-        Hawk.init(context).build()
+        context?.initSharedPrefs()
+
         val authority = BuildConfig.CONTENT_PROVIDER_AUTHORITY
         check(authority.startsWith(context!!.packageName)) { "your authority (" + authority + ") for the content provider should start with your package name: " + context!!.packageName }
 
@@ -30,9 +34,9 @@ class StickerContentProvider : ContentProvider() {
         MATCHER.addURI(authority, "$STICKERS/*", STICKERS_CODE)
 
         for (stickerPack in getStickerPackList()) {
-            MATCHER.addURI(authority, STICKERS_ASSET + "/" + stickerPack.identifier + "/" + getLastBitFromUrl(stickerPack.trayImageFile), STICKER_PACK_TRAY_ICON_CODE)
+            MATCHER.addURI(authority, STICKERS_ASSET + "/" + stickerPack.identifier + "/" + stickerPack.trayImageFile.getLastBitFromUrl(), STICKER_PACK_TRAY_ICON_CODE)
             for (sticker in stickerPack.stickers) {
-                MATCHER.addURI(authority, STICKERS_ASSET + "/" + stickerPack.identifier + "/" + getLastBitFromUrl(sticker.imageFile), STICKERS_ASSET_CODE)
+                MATCHER.addURI(authority, STICKERS_ASSET + "/" + stickerPack.identifier + "/" + sticker.imageFile.getLastBitFromUrl(), STICKERS_ASSET_CODE)
             }
         }
         return true
@@ -76,11 +80,11 @@ class StickerContentProvider : ContentProvider() {
 
         for (stickerPack in getStickerPackList()) {
             if (identifier == stickerPack.identifier.toString()) {
-                if (fileName == getLastBitFromUrl(stickerPack.trayImageFile)) {
+                if (fileName == stickerPack.trayImageFile.getLastBitFromUrl()) {
                     return fetchFile(uri, fileName, identifier)
                 } else {
                     for (sticker in stickerPack.stickers) {
-                        if (fileName == getLastBitFromUrl(sticker.imageFile)) {
+                        if (fileName == sticker.imageFile.getLastBitFromUrl()) {
                             return fetchFile(uri, fileName, identifier)
                         }
                     }
@@ -119,7 +123,7 @@ class StickerContentProvider : ContentProvider() {
             }
 
     private fun getStickerPackList(): List<StickerPackView> =
-            Hawk.get("sticker_packs", ArrayList<StickerPackView>()) as List<StickerPackView>
+        preferences.getObjectsStickerPackViewList("sticker_packs")
 
     private fun getPackForAllStickerPacks(uri: Uri): Cursor =
             getStickerPackInfo(uri, getStickerPackList())
@@ -152,7 +156,7 @@ class StickerContentProvider : ContentProvider() {
             builder.add(stickerPack.identifier)
             builder.add(stickerPack.name)
             builder.add(stickerPack.publisher)
-            builder.add(getLastBitFromUrl(stickerPack.trayImageFile))
+            builder.add(stickerPack.trayImageFile.getLastBitFromUrl())
             builder.add(stickerPack.androidPlayStoreLink)
             builder.add(stickerPack.iosAppStoreLink)
             builder.add(stickerPack.publisherEmail)
@@ -171,7 +175,7 @@ class StickerContentProvider : ContentProvider() {
         for (stickerPack in getStickerPackList()) {
             if (identifier == stickerPack.identifier.toString()) {
                 for (sticker in stickerPack.stickers) {
-                    cursor.addRow(arrayOf<Any>(getLastBitFromUrl(sticker.imageFile), TextUtils.join(",", sticker.emojis)))
+                    cursor.addRow(arrayOf<Any>(sticker.imageFile.getLastBitFromUrl(), TextUtils.join(",", sticker.emojis)))
                 }
             }
         }

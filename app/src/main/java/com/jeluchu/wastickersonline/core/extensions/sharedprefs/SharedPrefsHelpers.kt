@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 
 
 class SharedPrefsHelpers {
@@ -108,6 +109,39 @@ class SharedPrefsHelpers {
         return null
     }
 
+    fun getObjectsStickerPackViewList(key: String): List<StickerPackView> {
+        if (isKeyExists(key)) {
+            val objectString = mSharedPreferences!!.getString(key, null)
+            if (objectString != null) {
+                val t: ArrayList<StickerPackView> =
+                    Gson().fromJson(
+                        objectString,
+                        object : TypeToken<List<StickerPackView>?>() {}.type
+                    )
+                val finalList: MutableList<StickerPackView> = ArrayList()
+                for (i in 0 until t.size) {
+                    finalList.add(
+                        StickerPackView(
+                            t[i].androidPlayStoreLink,
+                            t[i].iosAppStoreLink,
+                            t[i].publisherEmail,
+                            t[i].privacyPolicyWebsite,
+                            t[i].licenseAgreementWebsite,
+                            t[i].telegram_url,
+                            t[i].identifier,
+                            t[i].name,
+                            t[i].publisher,
+                            t[i].publisherWebsite,
+                            t[i].stickers,
+                            t[i].trayImageFile
+                        )
+                    )
+                }
+                return finalList
+            }
+        }
+        return emptyList()
+    }
 
     fun <T> setDataList(tag: String?, datalist: List<T>?) {
         if (null == datalist || datalist.isEmpty()) return
@@ -173,7 +207,7 @@ class SharedPrefsHelpers {
         private var mSharedPreferences: SharedPreferences? = null
 
         fun init(context: Context?) {
-            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            mSharedPreferences = context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
         }
 
         private fun validateInitialization() {

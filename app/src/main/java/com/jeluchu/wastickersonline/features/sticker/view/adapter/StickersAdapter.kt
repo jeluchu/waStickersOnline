@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.inflate
+import com.jeluchu.wastickersonline.databinding.ItemStickerBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
-import kotlinx.android.synthetic.main.item_sticker.view.*
 import kotlin.properties.Delegates
 
 class StickersAdapter : RecyclerView.Adapter<StickersAdapter.ViewHolder>(){
@@ -25,28 +25,31 @@ class StickersAdapter : RecyclerView.Adapter<StickersAdapter.ViewHolder>(){
     override fun getItemCount() = collection.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(stickerView: StickerPackView, clickListener: (StickerPackView) -> Unit) {
 
-            itemView.tvPackStickerName.text = stickerView.name
-            itemView.ivFirstSticker.load(stickerView.stickers[0].imageFile)
-            itemView.ivSecondSticker.load(stickerView.stickers[1].imageFile)
-            itemView.ivThirdSticker.load(stickerView.stickers[2].imageFile)
+        private val binding = ItemStickerBinding.bind(itemView)
+
+        fun bind(stickerView: StickerPackView, clickListener: (StickerPackView) -> Unit) = with(binding) {
+
+            binding.tvPackStickerName.text = stickerView.name
+            binding.ivFirstSticker.load(stickerView.stickers[0].imageFile)
+            binding.ivSecondSticker.load(stickerView.stickers[1].imageFile)
+            binding.ivThirdSticker.load(stickerView.stickers[2].imageFile)
 
             if (stickerView.stickers.size > 3) {
-                itemView.ivFourSticker.load(stickerView.stickers[3].imageFile)
-            } else { itemView.ivFourSticker.visibility = View.GONE }
+                binding.ivFourSticker.load(stickerView.stickers[3].imageFile)
+            } else { binding.ivFourSticker.visibility = View.GONE }
 
             if (stickerView.stickers.size > 4) {
-                itemView.ivFourSticker.load(stickerView.stickers[4].imageFile)
-            } else { itemView.ivFourSticker.visibility = View.GONE }
+                binding.ivFourSticker.load(stickerView.stickers[4].imageFile)
+            } else { binding.ivFourSticker.visibility = View.GONE }
 
             if (stickerView.stickers.size > 5) {
-                itemView.ivFiveSticker.load(stickerView.stickers[5].imageFile)
-            } else { itemView.ivFiveSticker.visibility = View.GONE }
+                binding.ivFiveSticker.load(stickerView.stickers[5].imageFile)
+            } else { binding.ivFiveSticker.visibility = View.GONE }
 
             if (stickerView.stickers.size > 6) {
-                itemView.ivSixSticker.load(stickerView.stickers[6].imageFile)
-            } else { itemView.ivSixSticker.visibility = View.GONE }
+                binding.ivSixSticker.load(stickerView.stickers[6].imageFile)
+            } else { binding.ivSixSticker.visibility = View.GONE }
 
             itemView.setOnClickListener { clickListener(stickerView)}
         }

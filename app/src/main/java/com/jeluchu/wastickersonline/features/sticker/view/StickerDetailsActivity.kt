@@ -11,57 +11,70 @@ import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import coil.load
 import coil.request.ImageRequest
-import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersDetailsAdapter
+import com.jeluchu.aruppi.core.extensions.viewbinding.viewBinding
 import com.jeluchu.wastickersonline.BuildConfig
 import com.jeluchu.wastickersonline.R
-import com.jeluchu.wastickersonline.core.extensions.others.*
+import com.jeluchu.wastickersonline.core.extensions.others.exitActivityLeft
+import com.jeluchu.wastickersonline.core.extensions.others.getLastBitFromUrl
+import com.jeluchu.wastickersonline.core.extensions.others.noCrash
+import com.jeluchu.wastickersonline.core.extensions.others.openInCustomTab
+import com.jeluchu.wastickersonline.core.extensions.others.saveImage
+import com.jeluchu.wastickersonline.core.extensions.others.simpletext
+import com.jeluchu.wastickersonline.core.extensions.others.statusBarColor
+import com.jeluchu.wastickersonline.core.utils.ConstantsMeth.Companion.getApiEndpointStickers
+import com.jeluchu.wastickersonline.databinding.ActivityStickerDetailsBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_AUTHORITY
 import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_ID
 import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_NAME
-import kotlinx.android.synthetic.main.activity_sticker_details.*
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersDetailsAdapter
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class StickerDetailsActivity : AppCompatActivity() {
 
-    private var stickerPackView: StickerPackView? = null
+    private val binding by viewBinding(ActivityStickerDetailsBinding::inflate)
 
     private val adapterStickers: StickersDetailsAdapter by inject()
 
+    private var stickerPackView: StickerPackView? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sticker_details)
+        setContentView(binding.root)
 
         statusBarColor()
-
-        ivBack.setOnClickListener { exitActivityLeft() }
-
-        if (intent.extras != null) {
-            stickerPackView = intent.getSerializableExtra("stickerpack") as StickerPackView?
-        }
-
-        adapterStickers.collection = stickerPackView?.stickers.orEmpty()
-
-        path = filesDir.toString() + "/" + "stickers_asset" + "/" + stickerPackView!!.identifier + "/"
-
-        ivTrayImage.load(stickerPackView!!.trayImageFile)
-        tvPackName.simpletext(stickerPackView!!.name)
-        tvAuthor.simpletext(stickerPackView!!.publisher)
-
+        initUI()
+        initListeners()
         getStickerPack()
 
-        rvStickers.adapter = adapterStickers
-        rvStickers.apply {
-            setHasFixedSize(true)
-            setItemViewCacheSize(30)
-        }
-        rvStickers.scheduleLayoutAnimation()
+        //binding.ivBack.setOnClickListener { exitActivityLeft() }
 
-        mcvAddToWhatsApp.setOnClickListener {
+        //if (intent.extras != null) {
+        //    stickerPackView = intent.getSerializableExtra("stickerpack") as StickerPackView?
+       // }
+
+       // adapterStickers.collection = stickerPackView?.stickers.orEmpty()
+
+        //path = filesDir.toString() + "/" + "stickers_asset" + "/" + stickerPackView!!.identifier + "/"
+
+        //binding.ivTrayImage.load(stickerPackView!!.trayImageFile)
+        //binding.tvPackName.simpletext(stickerPackView!!.name)
+        //binding.tvAuthor.simpletext(stickerPackView!!.publisher)
+
+
+        //binding.rvStickers.adapter = adapterStickers
+        //binding.rvStickers.apply {
+        //    setHasFixedSize(true)
+        //    setItemViewCacheSize(30)
+        //}
+        //binding.rvStickers.scheduleLayoutAnimation()
+/*
+        binding.mcvAddToWhatsApp.setOnClickListener {
             val intent = Intent()
             intent.action = "com.whatsapp.intent.action.ENABLE_STICKER_PACK"
             intent.putExtra(EXTRA_STICKER_PACK_ID, stickerPackView!!.identifier.toString())
@@ -73,69 +86,90 @@ class StickerDetailsActivity : AppCompatActivity() {
                 Toast.makeText(this@StickerDetailsActivity, "No se añadió el paquete de stickers. Si deseas añadirlo, instala o actualiza WhatsApp.", Toast.LENGTH_LONG).show()
             }
         }
-        mcvAddToTelegram.setOnClickListener { openInCustomTab(stickerPackView!!.publisherWebsite) }
+        binding.mcvAddToTelegram.setOnClickListener { openInCustomTab(stickerPackView!!.publisherWebsite) }
+*/
+    }
 
+    private fun initUI() = with(binding) {
+        if (intent.extras != null) {
+            stickerPackView = intent.getSerializableExtra("stickerpack") as StickerPackView?
+        }
+
+        ivTrayImage.load(stickerPackView!!.trayImageFile)
+        tvPackName.simpletext(stickerPackView!!.name)
+        tvAuthor.simpletext(stickerPackView!!.publisher)
+
+        adapterStickers.collection = stickerPackView?.stickers.orEmpty()
+        rvStickers.apply {
+            setHasFixedSize(true)
+            setItemViewCacheSize(30)
+            adapter = adapterStickers
+            scheduleLayoutAnimation()
+        }
+
+    }
+
+    private fun initListeners() = with(binding) {
+        ivBack.setOnClickListener { exitActivityLeft() }
+        mcvAddToWhatsApp.setOnClickListener {
+            val intent = Intent().apply {
+                action = "com.whatsapp.intent.action.ENABLE_STICKER_PACK"
+                putExtra(EXTRA_STICKER_PACK_ID, stickerPackView!!.identifier.toString())
+                putExtra(EXTRA_STICKER_PACK_AUTHORITY, BuildConfig.CONTENT_PROVIDER_AUTHORITY)
+                putExtra(EXTRA_STICKER_PACK_NAME, stickerPackView!!.name)
+            }
+            try {
+                startActivityForResult(intent, 200)
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(
+                    this@StickerDetailsActivity,
+                    "No se añadió el paquete de stickers. Si deseas añadirlo, instala o actualiza WhatsApp.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+        mcvAddToTelegram.setOnClickListener { openInCustomTab(stickerPackView!!.publisherWebsite) }
     }
 
     private fun getStickerPack() {
         noCrash {
-            val trayImageFile = getLastBitFromUrl(stickerPackView!!.trayImageFile)
 
-            val loader = ImageLoader(this@StickerDetailsActivity)
+            val trayImageFile = stickerPackView!!.trayImageFile.getLastBitFromUrl()
+
             val req = ImageRequest.Builder(this@StickerDetailsActivity)
-                    .data("https://aruppi.jeluchu.xyz/res/stickers/" + stickerPackView!!.identifier + "/" + trayImageFile)
-                    .target {
-                        val myDir = File("${MainActivity.path}/${stickerPackView!!.identifier}/try")
-                        myDir.mkdirs()
-                        val fname = trayImageFile.replace(".png", "").replace(" ", "_") + ".png"
-                        val file = File(myDir, fname)
-                        if (file.exists()) file.delete()
-                        try {
-                            val out = FileOutputStream(file)
-                            it.toBitmap().compress(Bitmap.CompressFormat.PNG, 40, out)
-                            out.close()
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }.build()
-            lifecycleScope.launch { loader.execute(req) }
+                .data(getApiEndpointStickers() + stickerPackView!!.identifier + "/" + trayImageFile)
+                .target {
+                    val myDir =
+                        File("${MainActivity.path}/${stickerPackView!!.identifier}/try")
+                    myDir.mkdirs()
+                    val imageName = trayImageFile.replace(".png", "").replace(" ", "_") + ".png"
+                    val file = File(myDir, imageName)
+                    if (file.exists()) file.delete()
+                    try {
+                        val out = FileOutputStream(file)
+                        it.toBitmap().compress(Bitmap.CompressFormat.PNG, 40, out)
+                        out.close()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }.build()
+
+            lifecycleScope.launch { ImageLoader(this@StickerDetailsActivity).execute(req) }
 
             for (s in stickerPackView!!.stickers) {
-                val imageFile = getLastBitFromUrl(s.imageFile)
+                val imageFile = s.imageFile.getLastBitFromUrl()
 
                 val myDir = File("${MainActivity.path}/${stickerPackView!!.identifier}")
                 myDir.mkdirs()
                 val file = File(myDir, imageFile)
                 if (file.exists()) file.delete()
 
-                saveImage(
-                        "https://aruppi.jeluchu.xyz/res/stickers/" + stickerPackView!!.identifier + "/" + imageFile,
-                        File("${MainActivity.path}/${stickerPackView!!.identifier}", imageFile)
+                (getApiEndpointStickers() + stickerPackView!!.identifier + "/" + imageFile).saveImage(
+                    File("${MainActivity.path}/${stickerPackView!!.identifier}", imageFile)
                 )
             }
         }
     }
-
-    private fun saveImage(imageUrl: String, destinationFile: File) {
-        try {
-            Thread {
-                val url = URL(imageUrl)
-                val inputStream = url.openStream()
-                val os = FileOutputStream(destinationFile)
-                val b = ByteArray(2048)
-                var length: Int
-                while (inputStream.read(b).also { length = it } != -1) {
-                    os.write(b, 0, length)
-                }
-                inputStream?.close()
-                os.close()
-            }.start()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
 
     override fun onBackPressed() {
         super.onBackPressed()

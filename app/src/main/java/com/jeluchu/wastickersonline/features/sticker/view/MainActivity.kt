@@ -1,12 +1,10 @@
 package com.jeluchu.wastickersonline.features.sticker.view
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jeluchu.wastickersonline.R
+import com.jeluchu.aruppi.core.extensions.viewbinding.viewBinding
 import com.jeluchu.wastickersonline.core.exception.Failure
 import com.jeluchu.wastickersonline.core.extensions.lifecycle.failure
 import com.jeluchu.wastickersonline.core.extensions.lifecycle.observe
@@ -14,39 +12,40 @@ import com.jeluchu.wastickersonline.core.extensions.others.exitActivityBottom
 import com.jeluchu.wastickersonline.core.extensions.others.openActivity
 import com.jeluchu.wastickersonline.core.extensions.others.openActivityRight
 import com.jeluchu.wastickersonline.core.extensions.others.statusBarColor
-import com.jeluchu.wastickersonline.core.utils.hawk.Hawk
+import com.jeluchu.wastickersonline.core.extensions.permissionStorage
+import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
+import com.jeluchu.wastickersonline.databinding.ActivityMainBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersAdapter
 import com.jeluchu.wastickersonline.features.sticker.viewmodel.StickersViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val permissionsList = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+    private val binding by viewBinding(ActivityMainBinding::inflate)
+
     private val getStickersView: StickersViewModel by inject()
     private val adapterStickers: StickersAdapter by inject()
 
+    private val preferences by lazy { SharedPrefsHelpers() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
         with(getStickersView) {
             observe(sticker, ::renderStickersList)
             failure(failure, ::handleFailure)
         }
 
-        loadStickers()
-
-
-        path = "$filesDir/stickers_asset"
-
-        permissions
-        setContentView(R.layout.activity_main)
+        initRequiresConfig()
         statusBarColor()
         initListeners()
-        rvStickersList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rvStickersList.adapter = adapterStickers
+    }
 
+    private fun initRequiresConfig() {
+        path = "$filesDir/stickers_asset"
+        permissionStorage
     }
 
     private fun initListeners() {
@@ -58,26 +57,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadStickers() = getStickersView.getStickers()
-
     private fun renderStickersList(stickersView: List<StickerPackView>?) {
-        val stickerPack : ArrayList<StickerPackView> = stickersView as ArrayList<StickerPackView>
-        Hawk.put("sticker_packs", stickerPack)
+        preferences.saveObjectsList("sticker_packs", stickersView)
         adapterStickers.collection = stickersView.orEmpty()
-    }
-    private fun handleFailure(failure: Failure?) { failure.toString() }
-
-    private val permissions: Unit
-        get() {
-            val perm = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            if (perm != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        this,
-                        permissionsList,
-                        1
-                )
-            }
+        binding.rvStickersList.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+            adapter = adapterStickers
+            scheduleLayoutAnimation()
         }
+    }
+    private fun handleFailure(failure: Failure?) = Log.d("waStickersOnline", failure.toString())
 
     override fun onBackPressed() {
         super.onBackPressed()

@@ -24,7 +24,10 @@ import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import com.jeluchu.wastickersonline.R
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.net.URL
 
 inline val buildIsMarshmallowAndUp: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
@@ -117,8 +120,27 @@ fun TextView.simpletext(value: String) {
     this.text = value
 }
 
-fun getLastBitFromUrl(url: String): String =
-        url.replaceFirst(".*/([^/?]+).*".toRegex(), "$1")
+fun String.getLastBitFromUrl(): String = replaceFirst(".*/([^/?]+).*".toRegex(), "$1")
+
+fun String.saveImage(destinationFile: File) {
+    runCatching {
+        Thread {
+            val url = URL(this)
+            val inputStream = url.openStream()
+            val os = FileOutputStream(destinationFile)
+            val b = ByteArray(2048)
+            var length: Int
+            while (inputStream.read(b).also { length = it } != -1) {
+                os.write(b, 0, length)
+            }
+            inputStream?.close()
+            os.close()
+        }.start()
+
+    }.getOrElse {
+        it.printStackTrace()
+    }
+}
 
 fun ViewGroup.inflate(layoutRes: Int): View =
     LayoutInflater.from(context).inflate(layoutRes, this, false)

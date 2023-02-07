@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.inflate
+import com.jeluchu.wastickersonline.databinding.ItemStickimageBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerView
-import kotlinx.android.synthetic.main.item_stickimage.view.*
 import kotlin.properties.Delegates
 
 class StickersDetailsAdapter : RecyclerView.Adapter<StickersDetailsAdapter.ViewHolder>(){
@@ -25,8 +25,11 @@ class StickersDetailsAdapter : RecyclerView.Adapter<StickersDetailsAdapter.ViewH
     override fun getItemCount() = collection.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val binding = ItemStickimageBinding.bind(itemView)
+
         fun bind(newView: StickerView, clickListener: (StickerView) -> Unit) {
-            itemView.ivSticker.load(newView.imageFile)
+            binding.ivSticker.load(newView.imageFile)
             itemView.setOnClickListener { clickListener(newView)}
         }
     }
