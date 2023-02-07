@@ -5,22 +5,23 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import coil.load
 import coil.request.ImageRequest
-import com.jeluchu.aruppi.core.extensions.viewbinding.viewBinding
+import com.jeluchu.jchucomponents.ktx.coroutines.noCrash
+import com.jeluchu.jchucomponents.ktx.strings.getLastBitFromUrl
+import com.jeluchu.jchucomponents.ktx.strings.saveImage
 import com.jeluchu.wastickersonline.BuildConfig
-import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.exitActivityLeft
-import com.jeluchu.wastickersonline.core.extensions.others.getLastBitFromUrl
-import com.jeluchu.wastickersonline.core.extensions.others.noCrash
 import com.jeluchu.wastickersonline.core.extensions.others.openInCustomTab
-import com.jeluchu.wastickersonline.core.extensions.others.saveImage
-import com.jeluchu.wastickersonline.core.extensions.others.simpletext
+import com.jeluchu.wastickersonline.core.extensions.others.simpleText
 import com.jeluchu.wastickersonline.core.extensions.others.statusBarColor
+import com.jeluchu.wastickersonline.core.extensions.serializable
+import com.jeluchu.wastickersonline.core.extensions.viewbinding.viewBinding
 import com.jeluchu.wastickersonline.core.utils.ConstantsMeth.Companion.getApiEndpointStickers
 import com.jeluchu.wastickersonline.databinding.ActivityStickerDetailsBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
@@ -30,7 +31,6 @@ import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion
 import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersDetailsAdapter
 import java.io.File
 import java.io.FileOutputStream
-import java.net.URL
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -42,64 +42,25 @@ class StickerDetailsActivity : AppCompatActivity() {
 
     private var stickerPackView: StickerPackView? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         statusBarColor()
         initUI()
         initListeners()
         getStickerPack()
-
-        //binding.ivBack.setOnClickListener { exitActivityLeft() }
-
-        //if (intent.extras != null) {
-        //    stickerPackView = intent.getSerializableExtra("stickerpack") as StickerPackView?
-       // }
-
-       // adapterStickers.collection = stickerPackView?.stickers.orEmpty()
-
-        //path = filesDir.toString() + "/" + "stickers_asset" + "/" + stickerPackView!!.identifier + "/"
-
-        //binding.ivTrayImage.load(stickerPackView!!.trayImageFile)
-        //binding.tvPackName.simpletext(stickerPackView!!.name)
-        //binding.tvAuthor.simpletext(stickerPackView!!.publisher)
-
-
-        //binding.rvStickers.adapter = adapterStickers
-        //binding.rvStickers.apply {
-        //    setHasFixedSize(true)
-        //    setItemViewCacheSize(30)
-        //}
-        //binding.rvStickers.scheduleLayoutAnimation()
-/*
-        binding.mcvAddToWhatsApp.setOnClickListener {
-            val intent = Intent()
-            intent.action = "com.whatsapp.intent.action.ENABLE_STICKER_PACK"
-            intent.putExtra(EXTRA_STICKER_PACK_ID, stickerPackView!!.identifier.toString())
-            intent.putExtra(EXTRA_STICKER_PACK_AUTHORITY, BuildConfig.CONTENT_PROVIDER_AUTHORITY)
-            intent.putExtra(EXTRA_STICKER_PACK_NAME, stickerPackView!!.name)
-            try {
-                startActivityForResult(intent, ADD_PACK)
-            } catch (e: ActivityNotFoundException) {
-                Toast.makeText(this@StickerDetailsActivity, "No se añadió el paquete de stickers. Si deseas añadirlo, instala o actualiza WhatsApp.", Toast.LENGTH_LONG).show()
-            }
-        }
-        binding.mcvAddToTelegram.setOnClickListener { openInCustomTab(stickerPackView!!.publisherWebsite) }
-*/
     }
 
     private fun initUI() = with(binding) {
         if (intent.extras != null) {
-            stickerPackView = intent.getSerializableExtra("stickerpack") as StickerPackView?
+            stickerPackView = intent.serializable("stickerpack") as StickerPackView?
         }
 
         ivTrayImage.load(stickerPackView!!.trayImageFile)
-        tvPackName.simpletext(stickerPackView!!.name)
-        tvAuthor.simpletext(stickerPackView!!.publisher)
+        tvPackName.simpleText(stickerPackView!!.name)
+        tvAuthor.simpleText(stickerPackView!!.publisher)
 
-        adapterStickers.collection = stickerPackView?.stickers.orEmpty()
+        adapterStickers.submitList(stickerPackView?.stickers.orEmpty())
         rvStickers.apply {
             setHasFixedSize(true)
             setItemViewCacheSize(30)
@@ -129,6 +90,10 @@ class StickerDetailsActivity : AppCompatActivity() {
             }
         }
         mcvAddToTelegram.setOnClickListener { openInCustomTab(stickerPackView!!.publisherWebsite) }
+        onBackPressedDispatcher.addCallback(this@StickerDetailsActivity, object: OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() = exitActivityLeft()
+            }
+        )
     }
 
     private fun getStickerPack() {
@@ -169,15 +134,5 @@ class StickerDetailsActivity : AppCompatActivity() {
                 )
             }
         }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        exitActivityLeft()
-    }
-
-    companion object {
-        private const val ADD_PACK = 200
-        var path: String? = null
     }
 }

@@ -1,11 +1,11 @@
 package com.jeluchu.wastickersonline.features.sticker.repository
 
-import com.jeluchu.wastickersonline.core.extensions.dateAndTime.isFetchSixHours
-import com.jeluchu.wastickersonline.core.exception.Failure
-import com.jeluchu.wastickersonline.core.extensions.request
+import com.jeluchu.jchucomponents.core.exception.Failure
+import com.jeluchu.jchucomponents.core.functional.Either
+import com.jeluchu.jchucomponents.ktx.context.handler.NetworkHandler
+import com.jeluchu.jchucomponents.ktx.retrofit.request
+import com.jeluchu.jchucomponents.ktx.time.isFetchSixHours
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
-import com.jeluchu.wastickersonline.core.functional.Either
-import com.jeluchu.wastickersonline.core.platform.NetworkHandler
 import com.jeluchu.wastickersonline.core.utils.LocalShared
 import com.jeluchu.wastickersonline.features.sticker.models.PacksEntity
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
@@ -27,7 +27,7 @@ interface StickersRepository {
                   private val local: StickerLocal
     ) : StickersRepository {
 
-        val preferences by lazy { SharedPrefsHelpers() }
+        private val preferences by lazy { SharedPrefsHelpers() }
 
         override fun stickers(): Flow<Either<Failure, List<StickerPack>>> =
             flow {
@@ -63,7 +63,7 @@ interface StickersRepository {
                     },
                     PacksEntity(emptyList())
                 )
-                false -> Either.Left(Failure.NetworkConnection())
+                false -> Either.Left(Failure.NetworkConnection(404, "Not Found"))
             }
 
         private fun addAllStickers(stickers: List<StickerPackEntity>) {

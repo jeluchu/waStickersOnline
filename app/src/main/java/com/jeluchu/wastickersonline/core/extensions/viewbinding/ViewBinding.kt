@@ -1,4 +1,4 @@
-package com.jeluchu.aruppi.core.extensions.viewbinding
+package com.jeluchu.wastickersonline.core.extensions.viewbinding
 
 import android.view.LayoutInflater
 import android.view.View

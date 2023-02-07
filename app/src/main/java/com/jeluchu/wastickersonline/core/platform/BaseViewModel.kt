@@ -2,7 +2,7 @@ package com.jeluchu.wastickersonline.core.platform
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jeluchu.wastickersonline.core.exception.Failure
+import com.jeluchu.jchucomponents.core.exception.Failure
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -13,8 +13,6 @@ abstract class BaseViewModel : ViewModel() {
         this.showSpinner.value = show
     }
 
-    protected fun handleFailure(failure: Failure) {
-        this.failure.value = failure
-    }
+    fun handleFailure(failure: Failure) = failure.toString()
 
 }

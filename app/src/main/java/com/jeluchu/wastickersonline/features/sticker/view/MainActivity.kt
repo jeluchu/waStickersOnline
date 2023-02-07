@@ -1,19 +1,19 @@
 package com.jeluchu.wastickersonline.features.sticker.view
 
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jeluchu.aruppi.core.extensions.viewbinding.viewBinding
-import com.jeluchu.wastickersonline.core.exception.Failure
-import com.jeluchu.wastickersonline.core.extensions.lifecycle.failure
-import com.jeluchu.wastickersonline.core.extensions.lifecycle.observe
+import com.jeluchu.jchucomponents.core.exception.Failure
+import com.jeluchu.jchucomponents.ktx.lifecycle.failure
+import com.jeluchu.jchucomponents.ktx.lifecycle.observe
 import com.jeluchu.wastickersonline.core.extensions.others.exitActivityBottom
 import com.jeluchu.wastickersonline.core.extensions.others.openActivity
 import com.jeluchu.wastickersonline.core.extensions.others.openActivityRight
 import com.jeluchu.wastickersonline.core.extensions.others.statusBarColor
 import com.jeluchu.wastickersonline.core.extensions.permissionStorage
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
+import com.jeluchu.wastickersonline.core.extensions.viewbinding.viewBinding
 import com.jeluchu.wastickersonline.databinding.ActivityMainBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersAdapter
@@ -55,23 +55,26 @@ class MainActivity : AppCompatActivity() {
             }
             openActivityRight()
         }
+        onBackPressedDispatcher.addCallback(
+            this@MainActivity,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() = exitActivityBottom()
+            }
+        )
     }
 
     private fun renderStickersList(stickersView: List<StickerPackView>?) {
         preferences.saveObjectsList("sticker_packs", stickersView)
-        adapterStickers.collection = stickersView.orEmpty()
+        adapterStickers.submitList(stickersView.orEmpty())
         binding.rvStickersList.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             adapter = adapterStickers
             scheduleLayoutAnimation()
         }
     }
-    private fun handleFailure(failure: Failure?) = Log.d("waStickersOnline", failure.toString())
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        exitActivityBottom()
-    }
+    private fun handleFailure(failure: Failure?) = failure.toString()
 
     companion object {
         const val EXTRA_STICKER_PACK_ID = "sticker_pack_id"

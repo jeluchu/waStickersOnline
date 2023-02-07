@@ -10,8 +10,8 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.text.TextUtils
 import android.util.Log
+import com.jeluchu.jchucomponents.ktx.strings.getLastBitFromUrl
 import com.jeluchu.wastickersonline.BuildConfig
-import com.jeluchu.wastickersonline.core.extensions.others.getLastBitFromUrl
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.initSharedPrefs
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView

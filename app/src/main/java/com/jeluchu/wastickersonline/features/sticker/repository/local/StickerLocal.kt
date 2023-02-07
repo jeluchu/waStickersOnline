@@ -1,7 +1,7 @@
 package com.jeluchu.wastickersonline.features.sticker.repository.local
 
+import com.jeluchu.jchucomponents.core.platform.ContextHandler
 import com.jeluchu.wastickersonline.core.database.AppDatabase
-import com.jeluchu.wastickersonline.core.extensions.others.ContextHandler
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackEntity
 
 

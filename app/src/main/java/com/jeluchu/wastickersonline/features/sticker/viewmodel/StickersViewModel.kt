@@ -2,14 +2,13 @@ package com.jeluchu.wastickersonline.features.sticker.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.jeluchu.wastickersonline.core.extensions.job.cancelIfActive
-import com.jeluchu.wastickersonline.core.functional.map
+import com.jeluchu.jchucomponents.ktx.job.cancelIfActive
+import com.jeluchu.jchucomponents.core.functional.map
 import com.jeluchu.wastickersonline.core.interactor.UseCase
 import com.jeluchu.wastickersonline.core.platform.BaseViewModel
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
 import com.jeluchu.wastickersonline.features.sticker.usecase.GetStickers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -25,7 +24,7 @@ class StickersViewModel(private val getStickers: GetStickers) : BaseViewModel() 
         getStickers()
     }
 
-    fun getStickers() {
+    private fun getStickers() {
         getStickersJob.cancelIfActive()
         getStickersJob = viewModelScope.launch {
             getStickers(UseCase.None())

@@ -1,7 +1,7 @@
 package com.jeluchu.wastickersonline.core.di
 
-import com.jeluchu.wastickersonline.core.extensions.others.ContextHandler
-import com.jeluchu.wastickersonline.core.platform.NetworkHandler
+import com.jeluchu.jchucomponents.core.platform.ContextHandler
+import com.jeluchu.jchucomponents.ktx.context.handler.NetworkHandler
 import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersAdapter
 import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersDetailsAdapter
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ val networkModule = module {
     factory { Dispatchers.IO }
 }
 
-val applicationModule = module(override = true) {
+val applicationModule = module {
     factory { StickersAdapter() }
     factory { StickersDetailsAdapter() }
 }

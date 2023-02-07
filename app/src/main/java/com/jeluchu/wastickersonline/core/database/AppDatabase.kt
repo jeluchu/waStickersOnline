@@ -10,9 +10,12 @@ import com.jeluchu.wastickersonline.features.sticker.models.StickerPackEntity
 import com.jeluchu.wastickersonline.features.sticker.repository.local.StickersDAO
 
 @Database(
-        entities = [
-            StickerPackEntity::class,
-        ], version = 1, exportSchema = false)
+    entities = [
+        StickerPackEntity::class,
+    ],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(value = [ListStringConverter::class])
 abstract class AppDatabase : RoomDatabase() {
 
@@ -22,20 +25,17 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getAppDatabase(context: Context): AppDatabase {
-
-            return INSTANCE ?: synchronized(this) {
-                val instance =
-                        Room.databaseBuilder(
-                                context.applicationContext,
-                                AppDatabase::class.java,
-                                "waStickersDB")
-                                .allowMainThreadQueries()
-                                .fallbackToDestructiveMigration()
-                                .build()
-                INSTANCE = instance
-                instance
-            }
+        fun getAppDatabase(context: Context): AppDatabase = INSTANCE ?: synchronized(this) {
+            val instance = Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                "waStickersDB"
+            )
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build()
+            INSTANCE = instance
+            instance
         }
     }
 }

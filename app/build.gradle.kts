@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
 }
@@ -53,6 +53,10 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.preference:preference-ktx:1.2.0")
 
+    // JCHUCOMPONENTS LIBRARY ----------------------------------------------------------------------
+    implementation("com.github.jeluchu.jchucomponents:jchucomponents-core:1.0.1")
+    implementation("com.github.jeluchu.jchucomponents:jchucomponents-ktx:1.0.1")
+
     // KOTLIN LIBRARY ------------------------------------------------------------------------------
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
@@ -84,5 +88,3 @@ dependencies {
     implementation("io.coil-kt:coil:2.2.2")
 
 }
-
-repositories { mavenCentral() }

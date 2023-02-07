@@ -2,18 +2,16 @@ package com.jeluchu.wastickersonline.features.sticker.view.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.inflate
 import com.jeluchu.wastickersonline.databinding.ItemStickerBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
-import kotlin.properties.Delegates
 
-class StickersAdapter : RecyclerView.Adapter<StickersAdapter.ViewHolder>(){
-    internal var collection: List<StickerPackView> by Delegates.observable(emptyList()) {
-            _, _, _ -> notifyDataSetChanged()
-}
+class StickersAdapter : ListAdapter<StickerPackView, StickersAdapter.ViewHolder>(StickersDiffCallback()) {
 
     internal var clickListener: (StickerPackView) -> Unit = { }
 
@@ -21,8 +19,10 @@ class StickersAdapter : RecyclerView.Adapter<StickersAdapter.ViewHolder>(){
         ViewHolder(
             parent.inflate(R.layout.item_sticker)
         )
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(collection[position], clickListener)
-    override fun getItemCount() = collection.size
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val sticker = getItem(position)
+        holder.bind(sticker, clickListener)
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -53,5 +53,12 @@ class StickersAdapter : RecyclerView.Adapter<StickersAdapter.ViewHolder>(){
 
             itemView.setOnClickListener { clickListener(stickerView)}
         }
+    }
+
+    class StickersDiffCallback : DiffUtil.ItemCallback<StickerPackView>() {
+        override fun areItemsTheSame(oldItem: StickerPackView, newItem: StickerPackView): Boolean {
+            return oldItem.identifier == newItem.identifier
+        }
+        override fun areContentsTheSame(oldItem: StickerPackView, newItem: StickerPackView): Boolean = false
     }
 }
