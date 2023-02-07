@@ -90,7 +90,9 @@ class StickerDetailsActivity : AppCompatActivity() {
             }
         }
         mcvAddToTelegram.setOnClickListener { openInCustomTab(stickerPackView!!.publisherWebsite) }
-        onBackPressedDispatcher.addCallback(this@StickerDetailsActivity, object: OnBackPressedCallback(true) {
+        onBackPressedDispatcher.addCallback(
+            this@StickerDetailsActivity,
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() = exitActivityLeft()
             }
         )

@@ -34,20 +34,33 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         getByName("release") {
             isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
 
 dependencies {
 
+    // KOTLIN LIBRARY ------------------------------------------------------------------------------
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
     // GOOGLE LIBRARY ------------------------------------------------------------------------------
+    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.material:material:1.8.0")
@@ -56,13 +69,6 @@ dependencies {
     // JCHUCOMPONENTS LIBRARY ----------------------------------------------------------------------
     implementation("com.github.jeluchu.jchucomponents:jchucomponents-core:1.0.1")
     implementation("com.github.jeluchu.jchucomponents:jchucomponents-ktx:1.0.1")
-
-    // KOTLIN LIBRARY ------------------------------------------------------------------------------
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation("androidx.core:core-ktx:1.9.0")
 
     // KOIN LIBRARY --------------------------------------------------------------------------------
     implementation("io.insert-koin:koin-android:3.3.2")
@@ -81,8 +87,6 @@ dependencies {
     // RETROFIT ------------------------------------------------------------------------------------
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
     // MULTIMEDIA ----------------------------------------------------------------------------------
     implementation("io.coil-kt:coil:2.2.2")

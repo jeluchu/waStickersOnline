@@ -9,7 +9,7 @@ class StickersService(retrofitBuilder: Retrofit.Builder) : StickersApi {
 
     val retrofit: Retrofit = retrofitBuilder.baseUrl(ConstantsMeth.getApiEndpointStickers()).build()
 
-    private val serviceApi by lazy { retrofit.create(StickersApi::class.java)  }
+    private val serviceApi by lazy { retrofit.create(StickersApi::class.java) }
     override fun getStickers(): Call<PacksEntity> = serviceApi.getStickers()
 
 }

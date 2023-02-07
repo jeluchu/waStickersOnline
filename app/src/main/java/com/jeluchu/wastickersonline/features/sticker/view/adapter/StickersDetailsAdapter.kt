@@ -11,14 +11,16 @@ import com.jeluchu.wastickersonline.core.extensions.others.inflate
 import com.jeluchu.wastickersonline.databinding.ItemStickimageBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerView
 
-class StickersDetailsAdapter : ListAdapter<StickerView, StickersDetailsAdapter.ViewHolder>(StickersDiffCallback()){
+class StickersDetailsAdapter :
+    ListAdapter<StickerView, StickersDetailsAdapter.ViewHolder>(StickersDiffCallback()) {
 
     private var clickListener: (StickerView) -> Unit = { }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(
-                    parent.inflate(R.layout.item_stickimage)
-            )
+        ViewHolder(
+            parent.inflate(R.layout.item_stickimage)
+        )
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sticker = getItem(position)
         holder.bind(sticker, clickListener)
@@ -30,7 +32,7 @@ class StickersDetailsAdapter : ListAdapter<StickerView, StickersDetailsAdapter.V
 
         fun bind(newView: StickerView, clickListener: (StickerView) -> Unit) {
             binding.ivSticker.load(newView.imageFile)
-            itemView.setOnClickListener { clickListener(newView)}
+            itemView.setOnClickListener { clickListener(newView) }
         }
     }
 
@@ -38,6 +40,7 @@ class StickersDetailsAdapter : ListAdapter<StickerView, StickersDetailsAdapter.V
         override fun areItemsTheSame(oldItem: StickerView, newItem: StickerView): Boolean {
             return oldItem.imageFile == newItem.imageFile
         }
+
         override fun areContentsTheSame(oldItem: StickerView, newItem: StickerView): Boolean = false
     }
 }

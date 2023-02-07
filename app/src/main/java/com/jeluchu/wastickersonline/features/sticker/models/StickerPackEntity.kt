@@ -8,73 +8,73 @@ import com.google.gson.annotations.SerializedName
 @Entity
 data class StickerPackEntity(
 
-        @PrimaryKey(autoGenerate = true)
-        val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
 
-        @SerializedName("androidPlayStoreLink")
-        @ColumnInfo(name = "androidPlayStoreLink")
-        val androidPlayStoreLink: String?,
+    @SerializedName("androidPlayStoreLink")
+    @ColumnInfo(name = "androidPlayStoreLink")
+    val androidPlayStoreLink: String?,
 
-        @SerializedName("iosAppStoreLink")
-        @ColumnInfo(name = "iosAppStoreLink")
-        val iosAppStoreLink: String?,
+    @SerializedName("iosAppStoreLink")
+    @ColumnInfo(name = "iosAppStoreLink")
+    val iosAppStoreLink: String?,
 
-        @SerializedName("publisherEmail")
-        @ColumnInfo(name = "publisherEmail")
-        val publisherEmail: String?,
+    @SerializedName("publisherEmail")
+    @ColumnInfo(name = "publisherEmail")
+    val publisherEmail: String?,
 
-        @SerializedName("privacyPolicyWebsite")
-        @ColumnInfo(name = "privacyPolicyWebsite")
-        val privacyPolicyWebsite: String?,
+    @SerializedName("privacyPolicyWebsite")
+    @ColumnInfo(name = "privacyPolicyWebsite")
+    val privacyPolicyWebsite: String?,
 
-        @SerializedName("licenseAgreementWebsite")
-        @ColumnInfo(name = "licenseAgreementWebsite")
-        val licenseAgreementWebsite: String?,
+    @SerializedName("licenseAgreementWebsite")
+    @ColumnInfo(name = "licenseAgreementWebsite")
+    val licenseAgreementWebsite: String?,
 
-        @SerializedName("telegram_url")
-        @ColumnInfo(name = "telegram_url")
-        val telegram_url: String?,
+    @SerializedName("telegram_url")
+    @ColumnInfo(name = "telegram_url")
+    val telegram_url: String?,
 
-        @SerializedName("identifier")
-        @ColumnInfo(name = "identifier")
-        val identifier: Int?,
+    @SerializedName("identifier")
+    @ColumnInfo(name = "identifier")
+    val identifier: Int?,
 
-        @SerializedName("name")
-        @ColumnInfo(name = "name")
-        val name: String?,
+    @SerializedName("name")
+    @ColumnInfo(name = "name")
+    val name: String?,
 
-        @SerializedName("publisher")
-        @ColumnInfo(name = "publisher")
-        val publisher: String?,
+    @SerializedName("publisher")
+    @ColumnInfo(name = "publisher")
+    val publisher: String?,
 
-        @SerializedName("publisher_website")
-        @ColumnInfo(name = "publisher_website")
-        val publisherWebsite: String?,
+    @SerializedName("publisher_website")
+    @ColumnInfo(name = "publisher_website")
+    val publisherWebsite: String?,
 
-        @SerializedName("stickers")
-        @ColumnInfo(name = "stickers")
-        val stickers: List<StickerEntity>?,
+    @SerializedName("stickers")
+    @ColumnInfo(name = "stickers")
+    val stickers: List<StickerEntity>?,
 
-        @SerializedName("tray_image_file")
-        @ColumnInfo(name = "tray_image_file")
-        val trayImageFile: String?
+    @SerializedName("tray_image_file")
+    @ColumnInfo(name = "tray_image_file")
+    val trayImageFile: String?
 
 ) {
 
-        fun toStickersPack(): StickerPack =
-                StickerPack(
-                        androidPlayStoreLink ?: "",
-                        iosAppStoreLink ?: "",
-                        publisherEmail ?: "",
-                        privacyPolicyWebsite ?: "",
-                        licenseAgreementWebsite ?: "",
-                        telegram_url ?: "",
-                        identifier ?: 0,
-                        name ?: "",
-                        publisher ?: "",
-                        publisherWebsite ?: "",
-                        stickers?.map { it.toStickers() } ?: emptyList(),
-                        trayImageFile ?: ""
-                )
+    fun toStickersPack(): StickerPack =
+        StickerPack(
+            androidPlayStoreLink ?: "",
+            iosAppStoreLink ?: "",
+            publisherEmail ?: "",
+            privacyPolicyWebsite ?: "",
+            licenseAgreementWebsite ?: "",
+            telegram_url ?: "",
+            identifier ?: 0,
+            name ?: "",
+            publisher ?: "",
+            publisherWebsite ?: "",
+            stickers?.map { it.toStickers() } ?: emptyList(),
+            trayImageFile ?: ""
+        )
 
 }

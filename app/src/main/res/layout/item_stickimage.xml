@@ -5,9 +5,9 @@
     android:id="@+id/ivSticker"
     android:layout_width="80dp"
     android:layout_height="80dp"
-    app:srcCompat="@drawable/sticker_error"
-    tools:layout_editor_absoluteX="54dp"
-    tools:layout_editor_absoluteY="163dp"
     android:layout_margin="8dp"
     android:scaleType="centerInside"
-    tools:ignore="ContentDescription" />
+    app:srcCompat="@drawable/sticker_error"
+    tools:ignore="ContentDescription"
+    tools:layout_editor_absoluteX="54dp"
+    tools:layout_editor_absoluteY="163dp" />

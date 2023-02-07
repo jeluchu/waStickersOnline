@@ -34,22 +34,32 @@ class StickerContentProvider : ContentProvider() {
         MATCHER.addURI(authority, "$STICKERS/*", STICKERS_CODE)
 
         for (stickerPack in getStickerPackList()) {
-            MATCHER.addURI(authority, STICKERS_ASSET + "/" + stickerPack.identifier + "/" + stickerPack.trayImageFile.getLastBitFromUrl(), STICKER_PACK_TRAY_ICON_CODE)
+            MATCHER.addURI(
+                authority,
+                STICKERS_ASSET + "/" + stickerPack.identifier + "/" + stickerPack.trayImageFile.getLastBitFromUrl(),
+                STICKER_PACK_TRAY_ICON_CODE
+            )
             for (sticker in stickerPack.stickers) {
-                MATCHER.addURI(authority, STICKERS_ASSET + "/" + stickerPack.identifier + "/" + sticker.imageFile.getLastBitFromUrl(), STICKERS_ASSET_CODE)
+                MATCHER.addURI(
+                    authority,
+                    STICKERS_ASSET + "/" + stickerPack.identifier + "/" + sticker.imageFile.getLastBitFromUrl(),
+                    STICKERS_ASSET_CODE
+                )
             }
         }
         return true
     }
 
-    override fun query(uri: Uri, projection: Array<String>?, selection: String?,
-                       selectionArgs: Array<String>?, sortOrder: String?): Cursor? =
-            when (MATCHER.match(uri)) {
-                METADATA_CODE -> getPackForAllStickerPacks(uri)
-                METADATA_CODE_FOR_SINGLE_PACK -> getCursorForSingleStickerPack(uri)
-                STICKERS_CODE -> getStickersForAStickerPack(uri)
-                else -> throw IllegalArgumentException("Unknown URI: $uri")
-            }
+    override fun query(
+        uri: Uri, projection: Array<String>?, selection: String?,
+        selectionArgs: Array<String>?, sortOrder: String?
+    ): Cursor? =
+        when (MATCHER.match(uri)) {
+            METADATA_CODE -> getPackForAllStickerPacks(uri)
+            METADATA_CODE_FOR_SINGLE_PACK -> getCursorForSingleStickerPack(uri)
+            STICKERS_CODE -> getStickersForAStickerPack(uri)
+            else -> throw IllegalArgumentException("Unknown URI: $uri")
+        }
 
     @Throws(FileNotFoundException::class)
     override fun openAssetFile(uri: Uri, mode: String): AssetFileDescriptor? {
@@ -57,13 +67,14 @@ class StickerContentProvider : ContentProvider() {
         val matchCode = MATCHER.match(uri)
         val pathSegments = uri.pathSegments
         Log.d(
-                TAG, """
+            TAG, """
      openFile: $matchCode$uri
      ${uri.authority}
      ${pathSegments[pathSegments.size - 3]}/
      ${pathSegments[pathSegments.size - 2]}/
      ${pathSegments[pathSegments.size - 1]}
-     """.trimIndent())
+     """.trimIndent()
+        )
         return getImageAsset(uri)
     }
 
@@ -97,15 +108,26 @@ class StickerContentProvider : ContentProvider() {
     private fun fetchFile(uri: Uri, fileName: String, identifier: String): AssetFileDescriptor? {
         return try {
             val file: File = if (fileName.endsWith(".png")) {
-                File(context!!.filesDir.toString() + "/" + "stickers_asset" + "/" + identifier + "/try/", fileName)
+                File(
+                    context!!.filesDir.toString() + "/" + "stickers_asset" + "/" + identifier + "/try/",
+                    fileName
+                )
             } else {
-                File(context!!.filesDir.toString() + "/" + "stickers_asset" + "/" + identifier + "/", fileName)
+                File(
+                    context!!.filesDir.toString() + "/" + "stickers_asset" + "/" + identifier + "/",
+                    fileName
+                )
             }
             if (!file.exists()) {
                 Log.d("fetFile", "StickerPack dir not found")
             }
             Log.d("fetchFile", "StickerPack " + file.path)
-            AssetFileDescriptor(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY), 0L, -1L)
+            AssetFileDescriptor(
+                ParcelFileDescriptor.open(
+                    file,
+                    ParcelFileDescriptor.MODE_READ_ONLY
+                ), 0L, -1L
+            )
         } catch (e: IOException) {
             Log.e(context!!.packageName, "IOException when getting asset file, uri:$uri", e)
             null
@@ -113,20 +135,20 @@ class StickerContentProvider : ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? =
-            when (MATCHER.match(uri)) {
-                METADATA_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
-                METADATA_CODE_FOR_SINGLE_PACK -> "vnd.android.cursor.item/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
-                STICKERS_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + STICKERS
-                STICKERS_ASSET_CODE -> "image/png"
-                STICKER_PACK_TRAY_ICON_CODE -> "image/png"
-                else -> throw IllegalArgumentException("Unknown URI: $uri")
-            }
+        when (MATCHER.match(uri)) {
+            METADATA_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
+            METADATA_CODE_FOR_SINGLE_PACK -> "vnd.android.cursor.item/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
+            STICKERS_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + STICKERS
+            STICKERS_ASSET_CODE -> "image/png"
+            STICKER_PACK_TRAY_ICON_CODE -> "image/png"
+            else -> throw IllegalArgumentException("Unknown URI: $uri")
+        }
 
     private fun getStickerPackList(): List<StickerPackView> =
         preferences.getObjectsStickerPackViewList("sticker_packs")
 
     private fun getPackForAllStickerPacks(uri: Uri): Cursor =
-            getStickerPackInfo(uri, getStickerPackList())
+        getStickerPackInfo(uri, getStickerPackList())
 
     private fun getCursorForSingleStickerPack(uri: Uri): Cursor {
         val identifier = uri.lastPathSegment
@@ -139,7 +161,8 @@ class StickerContentProvider : ContentProvider() {
     }
 
     private fun getStickerPackInfo(uri: Uri, stickerPackList: List<StickerPackView>): Cursor {
-        val cursor = MatrixCursor(arrayOf(
+        val cursor = MatrixCursor(
+            arrayOf(
                 STICKER_PACK_IDENTIFIER_IN_QUERY,
                 STICKER_PACK_NAME_IN_QUERY,
                 STICKER_PACK_PUBLISHER_IN_QUERY,
@@ -150,7 +173,8 @@ class StickerContentProvider : ContentProvider() {
                 PUBLISHER_WEBSITE,
                 PRIVACY_POLICY_WEBSITE,
                 LICENSE_AGREENMENT_WEBSITE
-        ))
+            )
+        )
         for (stickerPack in stickerPackList) {
             val builder = cursor.newRow()
             builder.add(stickerPack.identifier)
@@ -175,7 +199,12 @@ class StickerContentProvider : ContentProvider() {
         for (stickerPack in getStickerPackList()) {
             if (identifier == stickerPack.identifier.toString()) {
                 for (sticker in stickerPack.stickers) {
-                    cursor.addRow(arrayOf<Any>(sticker.imageFile.getLastBitFromUrl(), TextUtils.join(",", sticker.emojis)))
+                    cursor.addRow(
+                        arrayOf<Any>(
+                            sticker.imageFile.getLastBitFromUrl(),
+                            TextUtils.join(",", sticker.emojis)
+                        )
+                    )
                 }
             }
         }
@@ -184,14 +213,16 @@ class StickerContentProvider : ContentProvider() {
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int =
-            throw UnsupportedOperationException("Not supported")
+        throw UnsupportedOperationException("Not supported")
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? =
-            throw UnsupportedOperationException("Not supported")
+        throw UnsupportedOperationException("Not supported")
 
-    override fun update(uri: Uri, values: ContentValues?, selection: String?,
-                        selectionArgs: Array<String>?): Int =
-            throw UnsupportedOperationException("Not supported")
+    override fun update(
+        uri: Uri, values: ContentValues?, selection: String?,
+        selectionArgs: Array<String>?
+    ): Int =
+        throw UnsupportedOperationException("Not supported")
 
     private
 

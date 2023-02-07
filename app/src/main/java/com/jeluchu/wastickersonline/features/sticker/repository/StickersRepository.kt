@@ -11,20 +11,21 @@ import com.jeluchu.wastickersonline.features.sticker.models.PacksEntity
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackEntity
 import com.jeluchu.wastickersonline.features.sticker.repository.local.StickerLocal
+import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.util.*
 
 interface StickersRepository {
-    
+
     fun stickers(): Flow<Either<Failure, List<StickerPack>>>
-    
-    class Network(private val networkHandler: NetworkHandler,
-                  private val service: StickersService,
-                  private val local: StickerLocal
+
+    class Network(
+        private val networkHandler: NetworkHandler,
+        private val service: StickersService,
+        private val local: StickerLocal
     ) : StickersRepository {
 
         private val preferences by lazy { SharedPrefsHelpers() }
@@ -67,7 +68,9 @@ interface StickersRepository {
             }
 
         private fun addAllStickers(stickers: List<StickerPackEntity>) {
-            for (sticker in stickers) { local.addStickers(sticker) }
+            for (sticker in stickers) {
+                local.addStickers(sticker)
+            }
         }
 
     }

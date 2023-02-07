@@ -10,26 +10,26 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:contentInsetStart="0dp"
-        android:background="@color/white" >
+        android:background="@color/white"
+        app:contentInsetStart="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/space_16"
-            android:paddingEnd="@dimen/space_16"
             android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/space_16"
             android:paddingBottom="@dimen/space_8">
 
             <ImageView
                 android:id="@+id/ivBack"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_left"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="8dp"
-                android:src="@drawable/ic_arrow_left" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.MaterialToolbar>
@@ -39,9 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/preview_side_margin"
         android:layout_marginLeft="@dimen/preview_side_margin"
+        android:layout_marginTop="@dimen/space_24"
         android:layout_marginEnd="@dimen/preview_side_margin"
         android:layout_marginRight="@dimen/preview_side_margin"
-        android:layout_marginTop="@dimen/space_24"
         android:layout_marginBottom="@dimen/space_24">
 
         <ImageView
@@ -96,17 +96,17 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:fadingEdgeLength="@dimen/fading_edge_length"
+            android:overScrollMode="never"
             android:paddingStart="@dimen/preview_side_margin"
             android:paddingLeft="@dimen/preview_side_margin"
             android:paddingEnd="@dimen/preview_side_margin"
             android:paddingRight="@dimen/preview_side_margin"
             android:requiresFadingEdge="vertical"
+            app:gridLayoutManagerColumns="4"
             app:layoutAnimation="@anim/layout_animation_from_bottom_scale"
             app:layoutManagerOrientation="vertical"
-            app:gridLayoutManagerColumns="4"
             app:layoutManagerReverse="false"
-            app:layoutManagerType="grid"
-            android:overScrollMode="never"/>
+            app:layoutManagerType="grid" />
 
         <View
             android:layout_width="match_parent"
@@ -120,15 +120,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_16"
         android:paddingStart="@dimen/space_16"
-        android:paddingEnd="@dimen/space_16"
-        android:layout_marginBottom="@dimen/space_16">
+        android:paddingEnd="@dimen/space_16">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="@dimen/space_8">
+            android:layout_marginEnd="@dimen/space_8"
+            android:layout_weight="1">
 
             <TextView
                 android:layout_width="match_parent"
@@ -146,9 +146,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:cardBackgroundColor="@color/redCardBackground"
-                app:cardCornerRadius="@dimen/space_16"
-                android:foreground="?attr/selectableItemBackgroundBorderless">
+                app:cardCornerRadius="@dimen/space_16">
 
                 <TextView
                     style="@style/StickerPreviewButtonText"
@@ -167,17 +167,17 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/space_8">
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_weight="1">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/mcvAddToTelegram"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:cardBackgroundColor="@color/redCardBackground"
-                app:cardCornerRadius="@dimen/space_16"
-                android:foreground="?attr/selectableItemBackgroundBorderless">
+                app:cardCornerRadius="@dimen/space_16">
 
                 <TextView
                     style="@style/StickerPreviewButtonText"

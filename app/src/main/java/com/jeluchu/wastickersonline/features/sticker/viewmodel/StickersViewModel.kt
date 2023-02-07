@@ -2,8 +2,8 @@ package com.jeluchu.wastickersonline.features.sticker.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.jeluchu.jchucomponents.ktx.job.cancelIfActive
 import com.jeluchu.jchucomponents.core.functional.map
+import com.jeluchu.jchucomponents.ktx.job.cancelIfActive
 import com.jeluchu.wastickersonline.core.interactor.UseCase
 import com.jeluchu.wastickersonline.core.platform.BaseViewModel
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
@@ -39,6 +39,7 @@ class StickersViewModel(private val getStickers: GetStickers) : BaseViewModel() 
                 }.collect { it.fold(::handleFailure, ::handleStickersList) }
         }
     }
+
     private fun handleStickersList(stickers: List<StickerPackView>) {
         this.sticker.value = stickers
     }

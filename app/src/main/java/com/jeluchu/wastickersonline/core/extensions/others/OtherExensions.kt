@@ -72,10 +72,23 @@ private fun Context.customTabsWeb(string: String) {
     try {
 
         val builder = CustomTabsIntent.Builder().apply {
-            setToolbarColor(Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(this@customTabsWeb, R.color.redCardBackground))))
+            setToolbarColor(
+                Color.parseColor(
+                    "#" + Integer.toHexString(
+                        ContextCompat.getColor(
+                            this@customTabsWeb,
+                            R.color.redCardBackground
+                        )
+                    )
+                )
+            )
             setShowTitle(true)
             setExitAnimations(this@customTabsWeb, R.anim.enter_slide_left, R.anim.exit_slide_left)
-            setStartAnimations(this@customTabsWeb, R.anim.enter_slide_right, R.anim.exit_slide_right)
+            setStartAnimations(
+                this@customTabsWeb,
+                R.anim.enter_slide_right,
+                R.anim.exit_slide_right
+            )
         }
 
         val intent = builder.build()
@@ -89,7 +102,9 @@ private fun Context.customTabsWeb(string: String) {
 }
 
 
-fun TextView.simpleText(value: String) { text = value }
+fun TextView.simpleText(value: String) {
+    text = value
+}
 
 fun ViewGroup.inflate(layoutRes: Int): View =
     LayoutInflater.from(context).inflate(layoutRes, this, false)
