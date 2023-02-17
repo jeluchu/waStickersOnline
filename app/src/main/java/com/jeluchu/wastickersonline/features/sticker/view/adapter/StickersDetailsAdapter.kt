@@ -2,6 +2,7 @@ package com.jeluchu.wastickersonline.features.sticker.view.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +11,12 @@ import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.inflate
 import com.jeluchu.wastickersonline.databinding.ItemStickimageBinding
 import com.jeluchu.wastickersonline.features.sticker.models.StickerView
+import com.jeluchu.wastickersonline.features.sticker.view.StickersPreviewDialog
 
 class StickersDetailsAdapter :
     ListAdapter<StickerView, StickersDetailsAdapter.ViewHolder>(StickersDiffCallback()) {
 
-    private var clickListener: (StickerView) -> Unit = { }
+    lateinit var supportFragmentManager: FragmentManager
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -23,16 +25,20 @@ class StickersDetailsAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sticker = getItem(position)
-        holder.bind(sticker, clickListener)
+        holder.bind(sticker, supportFragmentManager)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = ItemStickimageBinding.bind(itemView)
 
-        fun bind(newView: StickerView, clickListener: (StickerView) -> Unit) {
+        fun bind(newView: StickerView, supportFragmentManager: FragmentManager) {
             binding.ivSticker.load(newView.imageFile)
-            itemView.setOnClickListener { clickListener(newView) }
+            itemView.setOnClickListener {
+                StickersPreviewDialog(
+                    newView.imageFile
+                ).show(supportFragmentManager, "StickersPreviewDialog")
+            }
         }
     }
 

@@ -67,8 +67,8 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.0")
 
     // JCHUCOMPONENTS LIBRARY ----------------------------------------------------------------------
-    implementation("com.github.jeluchu.jchucomponents:jchucomponents-core:1.0.1")
-    implementation("com.github.jeluchu.jchucomponents:jchucomponents-ktx:1.0.1")
+    implementation("com.github.jeluchu.jchucomponents:jchucomponents-core:1.0.2")
+    implementation("com.github.jeluchu.jchucomponents:jchucomponents-ktx:1.0.2")
 
     // KOIN LIBRARY --------------------------------------------------------------------------------
     implementation("io.insert-koin:koin-android:3.3.2")
@@ -90,5 +90,6 @@ dependencies {
 
     // MULTIMEDIA ----------------------------------------------------------------------------------
     implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil-gif:2.2.2")
 
 }

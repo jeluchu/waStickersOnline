@@ -60,6 +60,7 @@ class StickerDetailsActivity : AppCompatActivity() {
         tvPackName.simpleText(stickerPackView!!.name)
         tvAuthor.simpleText(stickerPackView!!.publisher)
 
+        adapterStickers.supportFragmentManager = supportFragmentManager
         adapterStickers.submitList(stickerPackView?.stickers.orEmpty())
         rvStickers.apply {
             setHasFixedSize(true)
