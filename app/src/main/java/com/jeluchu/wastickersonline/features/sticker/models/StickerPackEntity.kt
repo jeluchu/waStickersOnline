@@ -51,6 +51,10 @@ data class StickerPackEntity(
     @ColumnInfo(name = "publisher_website")
     val publisherWebsite: String?,
 
+    @SerializedName("animated_sticker_pack")
+    @ColumnInfo(name = "animated_sticker_pack")
+    val animatedStickerPack: Boolean?,
+
     @SerializedName("stickers")
     @ColumnInfo(name = "stickers")
     val stickers: List<StickerEntity>?,
@@ -73,6 +77,7 @@ data class StickerPackEntity(
             name ?: "",
             publisher ?: "",
             publisherWebsite ?: "",
+            animatedStickerPack ?: false,
             stickers?.map { it.toStickers() } ?: emptyList(),
             trayImageFile ?: ""
         )

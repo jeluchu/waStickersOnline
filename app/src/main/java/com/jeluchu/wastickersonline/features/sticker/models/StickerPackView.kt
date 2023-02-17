@@ -16,6 +16,7 @@ data class StickerPackView(
     val name: String,
     val publisher: String,
     val publisherWebsite: String,
+    val animatedStickerPack: Boolean,
     val stickers: List<StickerView>,
     val trayImageFile: String
 ) : Serializable, Parcelable

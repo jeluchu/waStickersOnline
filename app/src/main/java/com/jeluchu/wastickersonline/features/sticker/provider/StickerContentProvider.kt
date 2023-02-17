@@ -172,7 +172,8 @@ class StickerContentProvider : ContentProvider() {
                 PUBLISHER_EMAIL,
                 PUBLISHER_WEBSITE,
                 PRIVACY_POLICY_WEBSITE,
-                LICENSE_AGREENMENT_WEBSITE
+                LICENSE_AGREENMENT_WEBSITE,
+                ANIMATED_STICKER_PACK
             )
         )
         for (stickerPack in stickerPackList) {
@@ -187,6 +188,8 @@ class StickerContentProvider : ContentProvider() {
             builder.add(stickerPack.publisherWebsite)
             builder.add(stickerPack.privacyPolicyWebsite)
             builder.add(stickerPack.licenseAgreementWebsite)
+            builder.add(if (stickerPack.animatedStickerPack) 1 else 0)
+
         }
         Log.d(TAG, "getStickerPackInfo: " + stickerPackList.size)
         cursor.setNotificationUri(context!!.contentResolver, uri)
@@ -215,7 +218,7 @@ class StickerContentProvider : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int =
         throw UnsupportedOperationException("Not supported")
 
-    override fun insert(uri: Uri, values: ContentValues?): Uri? =
+    override fun insert(uri: Uri, values: ContentValues?): Uri =
         throw UnsupportedOperationException("Not supported")
 
     override fun update(
@@ -237,6 +240,7 @@ class StickerContentProvider : ContentProvider() {
         const val PUBLISHER_WEBSITE = "sticker_pack_publisher_website"
         const val PRIVACY_POLICY_WEBSITE = "sticker_pack_privacy_policy_website"
         const val LICENSE_AGREENMENT_WEBSITE = "sticker_pack_license_agreement_website"
+        const val ANIMATED_STICKER_PACK = "animated_sticker_pack"
         const val STICKER_FILE_NAME_IN_QUERY = "sticker_file_name"
         const val STICKER_FILE_EMOJI_IN_QUERY = "sticker_emoji"
         private val TAG = StickerContentProvider::class.java.simpleName

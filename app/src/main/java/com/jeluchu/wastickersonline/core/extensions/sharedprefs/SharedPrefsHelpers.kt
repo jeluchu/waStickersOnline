@@ -52,6 +52,7 @@ class SharedPrefsHelpers {
                             t[i].name,
                             t[i].publisher,
                             t[i].publisherWebsite,
+                            t[i].animatedStickerPack,
                             t[i].stickers,
                             t[i].trayImageFile
                         )

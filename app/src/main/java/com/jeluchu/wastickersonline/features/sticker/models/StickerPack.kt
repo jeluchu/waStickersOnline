@@ -11,6 +11,7 @@ data class StickerPack(
     val name: String?,
     val publisher: String?,
     val publisherWebsite: String?,
+    val animatedStickerPack: Boolean?,
     val stickers: List<Sticker>?,
     val trayImageFile: String?
 ) {
@@ -27,6 +28,7 @@ data class StickerPack(
             name ?: "",
             publisher ?: "",
             publisherWebsite ?: "",
+            animatedStickerPack ?: false,
             stickers?.map { it.toStickerView() } ?: emptyList(),
             trayImageFile ?: ""
         )

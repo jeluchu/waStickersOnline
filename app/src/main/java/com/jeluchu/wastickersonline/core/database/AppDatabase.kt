@@ -13,7 +13,7 @@ import com.jeluchu.wastickersonline.features.sticker.repository.local.StickersDA
     entities = [
         StickerPackEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(value = [ListStringConverter::class])
