@@ -21,7 +21,7 @@ data class StickerPack(
     val animatedStickerPack: Boolean,
     val stickers: List<Sticker>,
     val trayImageFile: String
-): Parcelable {
+) : Parcelable {
     fun toStickerPackEntity(): StickerPackEntity =
         StickerPackEntity(
             id = id,

@@ -2,18 +2,14 @@ package com.jeluchu.wastickersonline.features.sticker.view
 
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.navigation.NavType
-import com.jeluchu.jchucomponents.ktx.packageutils.buildIsSAndUp
 import com.jeluchu.jchucomponents.ktx.packageutils.buildIsTiramisuAndUp
-import com.jeluchu.wastickersonline.BuildConfig
 import com.jeluchu.wastickersonline.core.extensions.permissionStorage
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
 import com.jeluchu.wastickersonline.core.ui.navigation.Navigation
-import com.jeluchu.wastickersonline.features.sticker.models.Sticker
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.json.Json

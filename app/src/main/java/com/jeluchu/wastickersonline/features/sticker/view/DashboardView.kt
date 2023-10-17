@@ -30,15 +30,12 @@ import com.jeluchu.jchucomponents.ui.composables.column.ScrollableColumn
 import com.jeluchu.jchucomponents.ui.composables.images.NetworkImage
 import com.jeluchu.jchucomponents.ui.extensions.modifier.cornerRadius
 import com.jeluchu.jchucomponents.ui.foundation.lists.ListRow
-import com.jeluchu.wastickersonline.core.extensions.others.openActivity
-import com.jeluchu.wastickersonline.core.extensions.others.openActivityRight
 import com.jeluchu.wastickersonline.core.ui.theme.darkGreen
 import com.jeluchu.wastickersonline.core.ui.theme.darkness
 import com.jeluchu.wastickersonline.core.ui.theme.milky
 import com.jeluchu.wastickersonline.core.ui.theme.primary
 import com.jeluchu.wastickersonline.core.ui.theme.secondary
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
-import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKERPACK
 import com.jeluchu.wastickersonline.features.sticker.viewmodel.StickersViewModel
 
 @Composable
@@ -100,7 +97,7 @@ private fun DashboardView(
 
                 ListRow(
                     contentPadding = PaddingValues(15.dp),
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    horizontalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                     items(it.stickers) { sticker ->
                         NetworkImage(

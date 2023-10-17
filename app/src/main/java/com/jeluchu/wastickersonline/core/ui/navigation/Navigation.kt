@@ -2,7 +2,6 @@ package com.jeluchu.wastickersonline.core.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
-import com.jeluchu.aruppi.core.ui.navigation.Feature
 
 @Composable
 fun Navigation() {
@@ -10,7 +9,7 @@ fun Navigation() {
         ProvideNavigate { nav ->
             NavHost(
                 navController = navHost,
-                startDestination = Feature.DASHBOARD.route
+                startDestination = Screen.Dashboard.route
             ) {
                 mainNav(nav)
                 detailsNav(nav)

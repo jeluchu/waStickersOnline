@@ -1,16 +1,13 @@
 package com.jeluchu.wastickersonline.core.ui.navigation
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.navigation.NavGraphBuilder
-import com.jeluchu.aruppi.core.ui.navigation.Destinations
-import com.jeluchu.aruppi.core.ui.navigation.Feature
-import com.jeluchu.aruppi.core.ui.navigation.nav
+import androidx.navigation.navArgument
+import com.jeluchu.wastickersonline.features.details.view.StickersDetailsView
 import com.jeluchu.wastickersonline.features.sticker.view.DashboardView
-import com.jeluchu.wastickersonline.features.sticker.view.StickersDetailsView
+import com.jeluchu.wastickersonline.features.sticker.view.StickerPackType
 
-@OptIn(ExperimentalFoundationApi::class)
 fun NavGraphBuilder.mainNav(nav: Destinations) {
-    composable(Feature.DASHBOARD.nav) {
+    composable(Screen.Dashboard) {
         DashboardView(
             onStickerClick = { sticker ->
                 nav.goToDetails(sticker)
@@ -28,7 +25,10 @@ fun NavGraphBuilder.mainNav(nav: Destinations) {
 }
 
 fun NavGraphBuilder.detailsNav(nav: Destinations) {
-    composable(Feature.DETAILS.nav) {
+    composable(
+        navItem = Screen.Detail,
+        arguments = listOf(navArgument(NavArgs.Sticker.key) { type = StickerPackType })
+    ) {
         StickersDetailsView(
             //onBackClick = { nav.goBack(it) },
             //onItemClick = {}

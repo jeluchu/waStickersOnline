@@ -3,7 +3,6 @@ package com.jeluchu.wastickersonline.features.sticker.models
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
 
 @Parcelize
 data class StickerEntity(
@@ -13,7 +12,7 @@ data class StickerEntity(
     val imageFile: String?,
     @SerializedName("image_file_thum")
     val imageFileThum: String?
-): Parcelable {
+) : Parcelable {
     fun toStickers(): Sticker =
         Sticker(
             emojis = emojis.orEmpty(),

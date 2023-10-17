@@ -3,6 +3,7 @@ package com.jeluchu.wastickersonline.core.ui.navigation
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -25,7 +26,8 @@ val exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> Exi
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.composable(
-    navItem: NavItem,
+    navItem: Screen,
+    arguments: List<NamedNavArgument> = emptyList(),
     enterAnimation: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? = enterTransition,
     exitAnimation: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? = exitTransition,
     popEnterAnimation: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? = enterTransition,
@@ -34,7 +36,7 @@ fun NavGraphBuilder.composable(
 ) {
     composable(
         route = navItem.route,
-        arguments = navItem.args,
+        arguments = arguments,
         enterTransition = enterAnimation,
         exitTransition = exitAnimation,
         popEnterTransition = popEnterAnimation,

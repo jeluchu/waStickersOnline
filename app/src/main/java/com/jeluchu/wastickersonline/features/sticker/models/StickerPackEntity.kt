@@ -1,13 +1,10 @@
 package com.jeluchu.wastickersonline.features.sticker.models
 
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.jeluchu.jchucomponents.ktx.bool.orFalse
 import com.jeluchu.jchucomponents.ktx.numbers.orEmpty
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
 
 @Entity
 data class StickerPackEntity(

@@ -10,7 +10,7 @@ data class Sticker(
     val emojis: List<String>,
     val imageFile: String,
     val imageFileThum: String
-): Parcelable {
+) : Parcelable {
     fun toStickerEntity(): StickerEntity =
         StickerEntity(
             emojis = emojis,

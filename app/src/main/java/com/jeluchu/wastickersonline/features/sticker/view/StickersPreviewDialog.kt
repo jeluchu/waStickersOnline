@@ -17,7 +17,7 @@ import com.jeluchu.wastickersonline.R
 
 class StickersPreviewDialog(
     val sticker: String
-): DialogFragment() {
+) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

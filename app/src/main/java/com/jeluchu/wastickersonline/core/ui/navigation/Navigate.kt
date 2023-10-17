@@ -6,7 +6,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.jeluchu.aruppi.core.ui.navigation.Destinations
 
 private val LocalNavHostController = staticCompositionLocalOf<NavHostController> {
     error("No NavHostController provided")

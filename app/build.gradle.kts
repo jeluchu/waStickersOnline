@@ -25,7 +25,7 @@ android {
         buildConfigField("String", "CONTENT_PROVIDER_AUTHORITY", "\"${contentProviderAuthority}\"")
     }
     composeOptions.kotlinCompilerExtensionVersion = "1.5.3"
-    buildFeatures{
+    buildFeatures {
         compose = true
         viewBinding = true
         buildConfig = true
