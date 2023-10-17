@@ -6,7 +6,10 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
@@ -19,41 +22,48 @@ import com.jeluchu.wastickersonline.BuildConfig
 import com.jeluchu.wastickersonline.core.extensions.others.exitActivityLeft
 import com.jeluchu.wastickersonline.core.extensions.others.openInCustomTab
 import com.jeluchu.wastickersonline.core.extensions.others.simpleText
-import com.jeluchu.wastickersonline.core.extensions.others.statusBarColor
 import com.jeluchu.wastickersonline.core.extensions.serializable
 import com.jeluchu.wastickersonline.core.extensions.viewbinding.viewBinding
 import com.jeluchu.wastickersonline.core.utils.ConstantsMeth.Companion.getApiEndpointStickers
 import com.jeluchu.wastickersonline.databinding.ActivityStickerDetailsBinding
-import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
 import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_AUTHORITY
 import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_ID
 import com.jeluchu.wastickersonline.features.sticker.view.MainActivity.Companion.EXTRA_STICKER_PACK_NAME
 import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersDetailsAdapter
-import java.io.File
-import java.io.FileOutputStream
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import java.io.File
+import java.io.FileOutputStream
 
+@AndroidEntryPoint
 class StickerDetailsActivity : AppCompatActivity() {
 
-    private val binding by viewBinding(ActivityStickerDetailsBinding::inflate)
+    //private val binding by viewBinding(ActivityStickerDetailsBinding::inflate)
 
-    private val adapterStickers: StickersDetailsAdapter by inject()
+    //private val adapterStickers: StickersDetailsAdapter by inject()
 
-    private var stickerPackView: StickerPackView? = null
+    private var stickerPackView: StickerPack? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        statusBarColor()
-        initUI()
-        initListeners()
-        getStickerPack()
-    }
+        //setContentView(binding.root)
+        //initUI()
+        //initListeners()
+        //if (intent.extras != null) {
+        //    stickerPackView = intent.serializable("stickerpack") as StickerPack?
+        //}
 
+        getStickerPack()
+        setContent {
+            StickersDetailsView()
+        }
+    }
+/*
     private fun initUI() = with(binding) {
         if (intent.extras != null) {
-            stickerPackView = intent.serializable("stickerpack") as StickerPackView?
+            stickerPackView = intent.serializable("stickerpack") as StickerPack?
         }
 
         ivTrayImage.load(stickerPackView!!.trayImageFile)
@@ -98,7 +108,7 @@ class StickerDetailsActivity : AppCompatActivity() {
             }
         )
     }
-
+*/
     private fun getStickerPack() {
         noCrash {
 

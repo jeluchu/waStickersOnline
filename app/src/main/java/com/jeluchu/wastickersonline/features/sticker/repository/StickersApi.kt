@@ -5,8 +5,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface StickersApi {
-
     @GET("contents.json")
-    fun getStickers(): Call<PacksEntity>
-
+    suspend fun getStickers(): PacksEntity
 }

@@ -1,25 +1,7 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven("https://jitpack.io")
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.4.1")
-        classpath(kotlin("gradle-plugin", version = "1.8.10"))
-    }
-}
-
-allprojects {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven("https://jitpack.io")
-    }
-}
-
-tasks.register("clean",Delete::class) {
-    delete(rootProject.buildDir)
+plugins {
+    id("com.android.application") version "8.1.2" apply false
+    id("com.android.library") version "8.1.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.10" apply false
+    id("com.google.dagger.hilt.android") version "2.48" apply false
+    id("com.google.devtools.ksp") version "1.9.0-1.0.12" apply false
 }

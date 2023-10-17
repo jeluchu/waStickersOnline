@@ -7,3 +7,8 @@ object LocalShared {
     }
 
 }
+
+object Database {
+    const val cache = "WaStickersOnlineCache-db"
+    const val favourites = "WaStickersOnlineFavourites-db"
+}

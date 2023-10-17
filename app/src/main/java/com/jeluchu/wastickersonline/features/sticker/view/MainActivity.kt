@@ -1,54 +1,58 @@
 package com.jeluchu.wastickersonline.features.sticker.view
 
+import android.net.Uri
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
+import android.os.Parcelable
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.jeluchu.jchucomponents.core.exception.Failure
-import com.jeluchu.jchucomponents.ktx.lifecycle.failure
-import com.jeluchu.jchucomponents.ktx.lifecycle.observe
-import com.jeluchu.wastickersonline.core.extensions.others.exitActivityBottom
-import com.jeluchu.wastickersonline.core.extensions.others.openActivity
-import com.jeluchu.wastickersonline.core.extensions.others.openActivityRight
-import com.jeluchu.wastickersonline.core.extensions.others.statusBarColor
+import androidx.compose.material3.MaterialTheme
+import androidx.navigation.NavType
+import com.jeluchu.jchucomponents.ktx.packageutils.buildIsSAndUp
+import com.jeluchu.jchucomponents.ktx.packageutils.buildIsTiramisuAndUp
+import com.jeluchu.wastickersonline.BuildConfig
 import com.jeluchu.wastickersonline.core.extensions.permissionStorage
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
-import com.jeluchu.wastickersonline.core.extensions.viewbinding.viewBinding
-import com.jeluchu.wastickersonline.databinding.ActivityMainBinding
-import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
-import com.jeluchu.wastickersonline.features.sticker.view.adapter.StickersAdapter
-import com.jeluchu.wastickersonline.features.sticker.viewmodel.StickersViewModel
-import org.koin.android.ext.android.inject
+import com.jeluchu.wastickersonline.core.ui.navigation.Navigation
+import com.jeluchu.wastickersonline.features.sticker.models.Sticker
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.json.Json
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val binding by viewBinding(ActivityMainBinding::inflate)
+    //private val binding by viewBinding(ActivityMainBinding::inflate)
 
-    private val getStickersView: StickersViewModel by inject()
-    private val adapterStickers: StickersAdapter by inject()
+    //private val adapterStickers: StickersAdapter by inject()
 
     private val preferences by lazy { SharedPrefsHelpers() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        //setContentView(binding.root)
 
-        with(getStickersView) {
+        /*with(getStickersView) {
             observe(sticker, ::renderStickersList)
-            failure(failure, ::handleFailure)
+           // failure(failure, ::handleFailure)
+        }*/
+
+        setContent {
+            MaterialTheme {
+                Navigation()
+            }
         }
 
         initRequiresConfig()
-        statusBarColor()
-        initListeners()
+        //initListeners()
     }
+
 
     private fun initRequiresConfig() {
         path = "$filesDir/stickers_asset"
         permissionStorage
     }
 
-    private fun initListeners() {
+    /*private fun initListeners() {
         adapterStickers.clickListener = {
             openActivity(StickerDetailsActivity::class.java) {
                 putParcelable(EXTRA_STICKERPACK, it)
@@ -61,20 +65,7 @@ class MainActivity : AppCompatActivity() {
                 override fun handleOnBackPressed() = exitActivityBottom()
             }
         )
-    }
-
-    private fun renderStickersList(stickersView: List<StickerPackView>?) {
-        preferences.saveObjectsList("sticker_packs", stickersView)
-        adapterStickers.submitList(stickersView.orEmpty())
-        binding.rvStickersList.apply {
-            layoutManager =
-                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-            adapter = adapterStickers
-            scheduleLayoutAnimation()
-        }
-    }
-
-    private fun handleFailure(failure: Failure?) = failure.toString()
+    }*/
 
     companion object {
         const val EXTRA_STICKER_PACK_ID = "sticker_pack_id"
@@ -86,5 +77,15 @@ class MainActivity : AppCompatActivity() {
         var path: String? = null
 
     }
+}
 
+val StickerPackType = object : NavType<StickerPack>(isNullableAllowed = false) {
+    override fun put(bundle: Bundle, key: String, value: StickerPack) =
+        bundle.putParcelable(key, value)
+
+    override fun get(bundle: Bundle, key: String): StickerPack? =
+        if (buildIsTiramisuAndUp) bundle.getParcelable(key, StickerPack::class.java)
+        else bundle.getParcelable(key)
+
+    override fun parseValue(value: String): StickerPack = Json.decodeFromString(Uri.decode(value))
 }

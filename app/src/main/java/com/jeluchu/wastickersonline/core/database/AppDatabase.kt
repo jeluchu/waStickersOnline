@@ -7,19 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.jeluchu.wastickersonline.core.utils.room.ListStringConverter
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackEntity
-import com.jeluchu.wastickersonline.features.sticker.repository.local.StickersDAO
+import com.jeluchu.wastickersonline.features.sticker.repository.local.StickersDao
 
 @Database(
     entities = [
         StickerPackEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(value = [ListStringConverter::class])
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun stickerEntityDao(): StickersDAO
+    abstract fun stickerDao(): StickersDao
 
     companion object {
         @Volatile

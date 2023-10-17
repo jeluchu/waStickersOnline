@@ -9,9 +9,9 @@ import com.jeluchu.wastickersonline.features.sticker.models.StickerEntity
 class ListStringConverter {
 
     @TypeConverter
-    fun stringToListSticker(data: String?): List<StickerEntity?>? = gson.fromJsonList(data)
+    fun stringToListSticker(data: String?): List<StickerEntity>? = gson.fromJsonList(data)
 
     @TypeConverter
-    fun listStickerToString(data: List<StickerEntity?>?): String? = data.toJson()
+    fun listStickerToString(data: List<StickerEntity>?): String? = data.toJson()
 
 }

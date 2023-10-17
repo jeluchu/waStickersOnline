@@ -14,7 +14,7 @@ import com.jeluchu.jchucomponents.ktx.strings.getLastBitFromUrl
 import com.jeluchu.wastickersonline.BuildConfig
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.SharedPrefsHelpers
 import com.jeluchu.wastickersonline.core.extensions.sharedprefs.initSharedPrefs
-import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -144,7 +144,7 @@ class StickerContentProvider : ContentProvider() {
             else -> throw IllegalArgumentException("Unknown URI: $uri")
         }
 
-    private fun getStickerPackList(): List<StickerPackView> =
+    private fun getStickerPackList(): List<StickerPack> =
         preferences.getObjectsStickerPackViewList("sticker_packs")
 
     private fun getPackForAllStickerPacks(uri: Uri): Cursor =
@@ -160,7 +160,7 @@ class StickerContentProvider : ContentProvider() {
         return getStickerPackInfo(uri, ArrayList())
     }
 
-    private fun getStickerPackInfo(uri: Uri, stickerPackList: List<StickerPackView>): Cursor {
+    private fun getStickerPackInfo(uri: Uri, stickerPackList: List<StickerPack>): Cursor {
         val cursor = MatrixCursor(
             arrayOf(
                 STICKER_PACK_IDENTIFIER_IN_QUERY,

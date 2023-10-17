@@ -9,12 +9,12 @@ import coil.load
 import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.inflate
 import com.jeluchu.wastickersonline.databinding.ItemStickerBinding
-import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
 
 class StickersAdapter :
-    ListAdapter<StickerPackView, StickersAdapter.ViewHolder>(StickersDiffCallback()) {
+    ListAdapter<StickerPack, StickersAdapter.ViewHolder>(StickersDiffCallback()) {
 
-    internal var clickListener: (StickerPackView) -> Unit = { }
+    internal var clickListener: (StickerPack) -> Unit = { }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -30,7 +30,7 @@ class StickersAdapter :
 
         private val binding = ItemStickerBinding.bind(itemView)
 
-        fun bind(stickerView: StickerPackView, clickListener: (StickerPackView) -> Unit) =
+        fun bind(stickerView: StickerPack, clickListener: (StickerPack) -> Unit) =
             with(binding) {
 
                 binding.tvPackStickerName.text = stickerView.name
@@ -66,14 +66,14 @@ class StickersAdapter :
             }
     }
 
-    class StickersDiffCallback : DiffUtil.ItemCallback<StickerPackView>() {
-        override fun areItemsTheSame(oldItem: StickerPackView, newItem: StickerPackView): Boolean {
+    class StickersDiffCallback : DiffUtil.ItemCallback<StickerPack>() {
+        override fun areItemsTheSame(oldItem: StickerPack, newItem: StickerPack): Boolean {
             return oldItem.identifier == newItem.identifier
         }
 
         override fun areContentsTheSame(
-            oldItem: StickerPackView,
-            newItem: StickerPackView
+            oldItem: StickerPack,
+            newItem: StickerPack
         ): Boolean = false
     }
 }

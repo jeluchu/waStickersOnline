@@ -10,11 +10,11 @@ import coil.load
 import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.others.inflate
 import com.jeluchu.wastickersonline.databinding.ItemStickimageBinding
-import com.jeluchu.wastickersonline.features.sticker.models.StickerView
+import com.jeluchu.wastickersonline.features.sticker.models.Sticker
 import com.jeluchu.wastickersonline.features.sticker.view.StickersPreviewDialog
 
 class StickersDetailsAdapter :
-    ListAdapter<StickerView, StickersDetailsAdapter.ViewHolder>(StickersDiffCallback()) {
+    ListAdapter<Sticker, StickersDetailsAdapter.ViewHolder>(StickersDiffCallback()) {
 
     lateinit var supportFragmentManager: FragmentManager
 
@@ -32,7 +32,7 @@ class StickersDetailsAdapter :
 
         private val binding = ItemStickimageBinding.bind(itemView)
 
-        fun bind(newView: StickerView, supportFragmentManager: FragmentManager) {
+        fun bind(newView: Sticker, supportFragmentManager: FragmentManager) {
             binding.ivSticker.load(newView.imageFile)
             itemView.setOnClickListener {
                 StickersPreviewDialog(
@@ -42,11 +42,11 @@ class StickersDetailsAdapter :
         }
     }
 
-    class StickersDiffCallback : DiffUtil.ItemCallback<StickerView>() {
-        override fun areItemsTheSame(oldItem: StickerView, newItem: StickerView): Boolean {
+    class StickersDiffCallback : DiffUtil.ItemCallback<Sticker>() {
+        override fun areItemsTheSame(oldItem: Sticker, newItem: Sticker): Boolean {
             return oldItem.imageFile == newItem.imageFile
         }
 
-        override fun areContentsTheSame(oldItem: StickerView, newItem: StickerView): Boolean = false
+        override fun areContentsTheSame(oldItem: Sticker, newItem: Sticker): Boolean = false
     }
 }

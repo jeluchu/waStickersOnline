@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.jeluchu.wastickersonline.features.sticker.models.StickerPackView
+import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
 
 class SharedPrefsHelpers {
 
@@ -29,25 +29,26 @@ class SharedPrefsHelpers {
         editor.apply()
     }
 
-    fun getObjectsStickerPackViewList(key: String): List<StickerPackView> {
+    fun getObjectsStickerPackViewList(key: String): List<StickerPack> {
         if (isKeyExists(key)) {
             val objectString = mSharedPreferences!!.getString(key, null)
             if (objectString != null) {
-                val t: ArrayList<StickerPackView> =
+                val t: ArrayList<StickerPack> =
                     Gson().fromJson(
                         objectString,
-                        object : TypeToken<List<StickerPackView>?>() {}.type
+                        object : TypeToken<List<StickerPack>?>() {}.type
                     )
-                val finalList: MutableList<StickerPackView> = ArrayList()
+                val finalList: MutableList<StickerPack> = ArrayList()
                 for (i in 0 until t.size) {
                     finalList.add(
-                        StickerPackView(
+                        StickerPack(
+                            t[i].id,
                             t[i].androidPlayStoreLink,
                             t[i].iosAppStoreLink,
                             t[i].publisherEmail,
                             t[i].privacyPolicyWebsite,
                             t[i].licenseAgreementWebsite,
-                            t[i].telegram_url,
+                            t[i].telegramUrl,
                             t[i].identifier,
                             t[i].name,
                             t[i].publisher,

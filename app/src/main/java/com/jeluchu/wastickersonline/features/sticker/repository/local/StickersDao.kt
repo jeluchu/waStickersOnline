@@ -5,10 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPackEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface StickersDAO {
-
+interface StickersDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertStickers(newsEntity: StickerPackEntity)
 
@@ -16,6 +16,8 @@ interface StickersDAO {
     fun deleteAll()
 
     @Query("SELECT * FROM StickerPackEntity")
-    fun getStickers(): List<StickerPackEntity>
+    fun getStickers(): Flow<List<StickerPackEntity>>
 
+    @Query("SELECT * from StickerPackEntity")
+    fun getStickersForServerQuery(): List<StickerPackEntity>?
 }

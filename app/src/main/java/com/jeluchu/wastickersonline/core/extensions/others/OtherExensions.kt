@@ -21,30 +21,6 @@ import com.jeluchu.jchucomponents.ktx.packageutils.buildIsMarshmallowAndUp
 import com.jeluchu.wastickersonline.R
 import java.io.IOException
 
-fun Activity.statusBarColor() {
-    setStatusBarColor(R.color.white)
-    setSystemBarLight(this)
-}
-
-fun Activity.setStatusBarColor(@ColorRes color: Int) {
-    if (buildIsLollipopAndUp) {
-        val window = window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.statusBarColor = ContextCompat.getColor(this, color)
-    }
-}
-
-fun setSystemBarLight(act: Activity) {
-    if (buildIsMarshmallowAndUp) {
-        val view = act.findViewById<View>(android.R.id.content)
-        var flags = view.systemUiVisibility
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
-        view.systemUiVisibility = flags
-    }
-}
 
 fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this, it)
