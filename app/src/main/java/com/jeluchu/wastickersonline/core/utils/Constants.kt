@@ -1,12 +1,10 @@
 package com.jeluchu.wastickersonline.core.utils
 
 object LocalShared {
-
     object Stickers {
         const val stickers = "stickers"
         const val stickerPacks = "sticker_packs"
     }
-
 }
 
 object Database {
@@ -19,5 +17,8 @@ object Stickers {
     const val authority = "sticker_pack_authority"
     const val packName = "sticker_pack_name"
     const val stickerpack = "stickerpack"
+}
 
+object Links {
+    const val website = "https://about.jeluchu.com"
 }

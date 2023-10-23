@@ -8,11 +8,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,20 +19,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
 import com.jeluchu.jchucomponents.core.states.ListStates
 import com.jeluchu.jchucomponents.ktx.compose.toPainter
-import com.jeluchu.jchucomponents.ktx.packageutils.buildIsTiramisuAndUp
 import com.jeluchu.jchucomponents.ui.accompanist.systemui.SystemStatusBarColors
+import com.jeluchu.jchucomponents.ui.animations.lists.Animations
+import com.jeluchu.jchucomponents.ui.animations.lists.animateItem
 import com.jeluchu.jchucomponents.ui.composables.column.ScrollableColumn
 import com.jeluchu.jchucomponents.ui.composables.images.NetworkImage
 import com.jeluchu.jchucomponents.ui.extensions.modifier.cornerRadius
+import com.jeluchu.jchucomponents.ui.foundation.icon.IconLink
 import com.jeluchu.jchucomponents.ui.foundation.lists.ListRow
 import com.jeluchu.wastickersonline.core.ui.theme.darkGreen
 import com.jeluchu.wastickersonline.core.ui.theme.darkness
@@ -47,8 +44,10 @@ import com.jeluchu.wastickersonline.features.sticker.viewmodel.StickersViewModel
 
 @Composable
 fun DashboardView(
+    uri: UriHandler = LocalUriHandler.current,
     vm: StickersViewModel = hiltViewModel(),
-    onStickerClick: (StickerPack) -> Unit
+    onStickerClick: (StickerPack) -> Unit,
+    onLogoClick: (UriHandler) -> Unit
 ) {
     SystemStatusBarColors(
         statusBarColor = primary,
@@ -59,7 +58,8 @@ fun DashboardView(
 
     DashboardView(
         state = state,
-        onStickerClick = onStickerClick
+        onStickerClick = onStickerClick,
+        onLogoClick = { onLogoClick(uri) }
     )
 }
 
@@ -67,16 +67,18 @@ fun DashboardView(
 @Composable
 private fun DashboardView(
     state: ListStates<StickerPack>,
-    onStickerClick: (StickerPack) -> Unit
+    onStickerClick: (StickerPack) -> Unit,
+    onLogoClick: () -> Unit
 ) = Scaffold(
     topBar = {
         CenterAlignedTopAppBar(
             title = { Text(text = "Stickers") },
             navigationIcon = {
-                Icon(
+                IconLink(
                     modifier = Modifier.size(30.dp),
                     painter = com.jeluchu.jchucomponents.ui.R.drawable.ic_deco_jeluchu.toPainter(),
-                    contentDescription = ""
+                    contentDescription = "",
+                    onClick = onLogoClick
                 )
             },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -114,6 +116,7 @@ private fun DashboardView(
                         NetworkImage(
                             modifier = Modifier
                                 .size(90.dp)
+                                .animateItem(Animations.Scale)
                                 .clip(10.cornerRadius())
                                 .background(secondary),
                             url = sticker.imageFile,

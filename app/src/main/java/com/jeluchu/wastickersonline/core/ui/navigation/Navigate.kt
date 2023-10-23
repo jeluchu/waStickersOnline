@@ -15,18 +15,6 @@ private val LocalNavigate = staticCompositionLocalOf<Destinations> {
     error("No Navigate provided")
 }
 
-object LocalNavHost {
-    val current: NavHostController
-        @Composable
-        get() = LocalNavHostController.current
-}
-
-object LocalNavigation {
-    val current: Destinations
-        @Composable
-        get() = LocalNavigate.current
-}
-
 @Composable
 fun ProvideNavHostController(content: @Composable (NavHostController) -> Unit) {
     val navController = rememberNavController()

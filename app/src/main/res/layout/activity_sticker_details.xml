@@ -90,7 +90,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.jeluchu.wastickersonline.core.utils.AnimatedRecyclerView
+        <!--<com.jeluchu.wastickersonline.core.utils.AnimatedRecyclerView
             android:id="@+id/rvStickers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -107,7 +107,7 @@
             app:layoutManagerOrientation="vertical"
             app:layoutManagerReverse="false"
             app:layoutManagerType="grid" />
-
+-->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -151,7 +151,6 @@
                 app:cardCornerRadius="@dimen/space_16">
 
                 <TextView
-                    style="@style/StickerPreviewButtonText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -180,7 +179,6 @@
                 app:cardCornerRadius="@dimen/space_16">
 
                 <TextView
-                    style="@style/StickerPreviewButtonText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -192,8 +190,5 @@
 
             </androidx.cardview.widget.CardView>
         </FrameLayout>
-
     </LinearLayout>
-
-
 </LinearLayout>

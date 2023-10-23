@@ -118,9 +118,7 @@ class StickerContentProvider : ContentProvider() {
                     fileName
                 )
             }
-            if (!file.exists()) {
-                Log.d("fetFile", "StickerPack dir not found")
-            }
+            if (!file.exists()) Log.d("fetFile", "StickerPack dir not found")
             Log.d("fetchFile", "StickerPack " + file.path)
             AssetFileDescriptor(
                 ParcelFileDescriptor.open(
@@ -189,7 +187,6 @@ class StickerContentProvider : ContentProvider() {
             builder.add(stickerPack.privacyPolicyWebsite)
             builder.add(stickerPack.licenseAgreementWebsite)
             builder.add(if (stickerPack.animatedStickerPack) 1 else 0)
-
         }
         Log.d(TAG, "getStickerPackInfo: " + stickerPackList.size)
         cursor.setNotificationUri(context!!.contentResolver, uri)
@@ -224,10 +221,7 @@ class StickerContentProvider : ContentProvider() {
     override fun update(
         uri: Uri, values: ContentValues?, selection: String?,
         selectionArgs: Array<String>?
-    ): Int =
-        throw UnsupportedOperationException("Not supported")
-
-    private
+    ): Int = throw UnsupportedOperationException("Not supported")
 
     companion object {
         const val STICKER_PACK_IDENTIFIER_IN_QUERY = "sticker_pack_identifier"
@@ -253,6 +247,5 @@ class StickerContentProvider : ContentProvider() {
         const val STICKERS_ASSET = "stickers_asset"
         private const val STICKERS_ASSET_CODE = 4
         private const val STICKER_PACK_TRAY_ICON_CODE = 5
-
     }
 }

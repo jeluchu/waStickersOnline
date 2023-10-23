@@ -15,9 +15,9 @@ import com.jeluchu.jchucomponents.ktx.strings.getLastBitFromUrl
 import com.jeluchu.jchucomponents.ktx.strings.saveImage
 import com.jeluchu.wastickersonline.WaStickersOnline
 import com.jeluchu.wastickersonline.core.ui.navigation.NavArgs
-import com.jeluchu.wastickersonline.core.utils.ConstantsMeth
+import com.jeluchu.wastickersonline.core.utils.Enviroments
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
-import com.jeluchu.wastickersonline.features.sticker.view.MainActivity
+import com.jeluchu.wastickersonline.MainActivity
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -40,7 +40,7 @@ class DetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             val trayImageFile = item.trayImageFile.getLastBitFromUrl()
 
             val req = ImageRequest.Builder(this)
-                .data(ConstantsMeth.getApiEndpointStickers() + item.identifier + "/" + trayImageFile)
+                .data(Enviroments.getApiEndpointStickers() + item.identifier + "/" + trayImageFile)
                 .target {
                     val myDir =
                         File("${MainActivity.path}/${item.identifier}/try")
@@ -67,7 +67,7 @@ class DetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 val file = File(myDir, imageFile)
                 if (file.exists()) file.delete()
 
-                (ConstantsMeth.getApiEndpointStickers() + item.identifier + "/" + imageFile).saveImage(
+                (Enviroments.getApiEndpointStickers() + item.identifier + "/" + imageFile).saveImage(
                     File("${MainActivity.path}/${item.identifier}", imageFile)
                 )
             }

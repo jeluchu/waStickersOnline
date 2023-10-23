@@ -5,7 +5,7 @@ import com.jeluchu.jchucomponents.utils.network.RetrofitClient
 import com.jeluchu.jchucomponents.utils.network.interceptors.Interceptor
 import com.jeluchu.jchucomponents.utils.network.interceptors.InterceptorHeaders
 import com.jeluchu.wastickersonline.WaStickersOnline
-import com.jeluchu.wastickersonline.core.utils.ConstantsMeth
+import com.jeluchu.wastickersonline.core.utils.Enviroments
 import com.jeluchu.wastickersonline.features.sticker.repository.StickersRepository
 import dagger.Module
 import dagger.Provides
@@ -22,7 +22,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit = RetrofitClient.buildRetrofit(
-        ConstantsMeth.getApiEndpointStickers(),
+        Enviroments.getApiEndpointStickers(),
         GsonConverterFactory.create(),
         WaStickersOnline.getContext(),
         Interceptor(

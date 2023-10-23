@@ -1,6 +1,7 @@
 package com.jeluchu.wastickersonline.features.details.view
 
 import android.app.Activity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,11 +27,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
+import coil.size.Size
 import com.jeluchu.jchucomponents.ktx.compose.toImageVector
 import com.jeluchu.jchucomponents.ktx.compose.toStringRes
 import com.jeluchu.jchucomponents.ktx.numbers.height
+import com.jeluchu.jchucomponents.ktx.packageutils.buildIsPAndUp
 import com.jeluchu.jchucomponents.ui.accompanist.systemui.SystemStatusBarColors
-import com.jeluchu.jchucomponents.ui.composables.images.NetworkImage
 import com.jeluchu.jchucomponents.ui.extensions.modifier.cornerRadius
 import com.jeluchu.jchucomponents.ui.foundation.icon.IconLink
 import com.jeluchu.jchucomponents.ui.foundation.lists.ColumnContentAlignment
@@ -41,7 +48,6 @@ import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.addStickers
 import com.jeluchu.wastickersonline.core.ui.theme.darkGreen
 import com.jeluchu.wastickersonline.core.ui.theme.darkness
-import com.jeluchu.wastickersonline.core.ui.theme.milky
 import com.jeluchu.wastickersonline.core.ui.theme.primary
 import com.jeluchu.wastickersonline.core.ui.theme.secondary
 import com.jeluchu.wastickersonline.features.details.viewmodel.DetailViewModel
@@ -55,7 +61,7 @@ fun StickersDetailsView(
 ) {
     SystemStatusBarColors(
         statusBarColor = primary,
-        systemBarsColor = primary
+        systemBarsColor = darkGreen
     )
 
     StickersDetails(
@@ -106,13 +112,28 @@ private fun StickersDetails(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     )
                 ) { sticker ->
-                    NetworkImage(
+                    val context = LocalContext.current
+                    val imageLoader = ImageLoader.Builder(context)
+                        .components {
+                            if (buildIsPAndUp) add(ImageDecoderDecoder.Factory())
+                            else add(GifDecoder.Factory())
+                        }
+                        .build()
+
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(context)
+                                .data(data = sticker.imageFile)
+                                .error(R.drawable.sticker_error).apply(block = {
+                                    size(Size.ORIGINAL)
+                                }).build(), imageLoader = imageLoader
+                        ),
+                        contentDescription = null,
                         modifier = Modifier
                             .weight(1f)
                             .aspectRatio(1f)
                             .clip(10.cornerRadius())
-                            .background(secondary),
-                        url = sticker.imageFile
+                            .background(secondary)
                     )
                 }
             }
@@ -134,7 +155,7 @@ private fun StickersDetails(
             modifier = Modifier.fillMaxWidth(),
             shape = 15.cornerRadius(),
             colors = ButtonDefaults.buttonColors(
-                containerColor = secondary
+                containerColor = primary
             ),
             onClick = { activity.addStickers(stickerPack) },
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding
@@ -144,7 +165,7 @@ private fun StickersDetails(
                 text = R.string.add_to_whatsapp.toStringRes(),
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,
-                color = milky
+                color = darkness
             )
         }
     }

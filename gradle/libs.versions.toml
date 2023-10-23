@@ -9,11 +9,11 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 androidx-lifecycle = "2.6.2"
 androidx-navigation = "2.7.4"
-androidx-room = "2.6.0-rc01"
+androidx-room = "2.6.0"
 androidx-work = "2.8.1"
 lifecycle-runtime-ktx = "2.6.2"
 activity-compose = "1.8.0"
-compose = "1.5.3"
+compose = "1.5.4"
 jeluchu-jchucomponents = "2.0.0-alpha01"
 com-google-dagger = "2.48"
 androidx-hilt = "1.0.0"
@@ -22,16 +22,11 @@ com-google-accompanist = "0.32.0"
 material3 = "1.1.2"
 
 [libraries]
-androidx-profileinstaller = "androidx.profileinstaller:profileinstaller:1.3.1"
-androidx-datastore = "androidx.datastore:datastore-preferences:1.0.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil-gif" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-core-core-splashscreen = "androidx.core:core-splashscreen:1.0.1"
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
@@ -43,10 +38,7 @@ compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling
 material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 jeluchu-jchucomponents-core = { group = "com.github.jeluchu.jchucomponents", name = "jchucomponents-core", version.ref = "jeluchu-jchucomponents" }
 jeluchu-jchucomponents-ktx = { group = "com.github.jeluchu.jchucomponents", name = "jchucomponents-ktx", version.ref = "jeluchu-jchucomponents" }
-jeluchu-jchucomponents-qr = { group = "com.github.jeluchu.jchucomponents", name = "jchucomponents-qr", version.ref = "jeluchu-jchucomponents" }
 jeluchu-jchucomponents-ui = { group = "com.github.jeluchu.jchucomponents", name = "jchucomponents-ui", version.ref = "jeluchu-jchucomponents" }
-jeluchu-jchucomponents-pay = { group = "com.github.jeluchu.jchucomponents", name = "jchucomponents-pay", version.ref = "jeluchu-jchucomponents" }
-jeluchu-jchucomponents-prefs = { group = "com.github.jeluchu.jchucomponents", name = "jchucomponents-prefs", version.ref = "jeluchu-jchucomponents" }
 com-google-code-gson = "com.google.code.gson:gson:2.10.1"
 com-google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "com-google-dagger" }
 com-google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "com-google-dagger" }
@@ -61,48 +53,29 @@ androidx-room-room-compiler = { module = "androidx.room:room-compiler", version.
 androidx-room-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-work-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
-androidx-core-core-ktx = "androidx.core:core-ktx:1.12.0"
 com-squareup-retrofit2-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "com-squareup-retrofit2" }
 com-squareup-retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "com-squareup-retrofit2" }
-accompanist-webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "com-google-accompanist" }
-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "com-google-accompanist" }
-com-google-firebase-firebase-analytics-ktx = "com.google.firebase:firebase-analytics-ktx:21.3.0"
-com-google-firebase-firebase-config-ktx = "com.google.firebase:firebase-config-ktx:21.4.1"
-com-google-firebase-firebase-crashlytics-gradle = "com.google.firebase:firebase-crashlytics-gradle:2.9.9"
-com-google-firebase-firebase-crashlytics-ktx = "com.google.firebase:firebase-crashlytics-ktx:18.4.3"
-com-google-firebase-firebase-dynamic-links-ktx = "com.google.firebase:firebase-dynamic-links-ktx:21.1.0"
-com-google-firebase-firebase-perf-ktx = "com.google.firebase:firebase-perf-ktx:20.4.1"
-com-onesignal-OneSignal = "com.onesignal:OneSignal:5.0.2"
-gradle-plugin-com-onesignal-onesignal-gradle-plugin = "gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.14.0"
 androidx-activity-compose = "androidx.activity:activity-compose:1.8.0"
-
-revenuecat = "com.revenuecat.purchases:purchases:6.9.3"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 [bundles]
-accompanist = [
-    "accompanist-webview",
-    "accompanist-permissions"
-]
 androidx = [
+    "core-ktx",
+    "material3",
+    "androidx-multidex",
     "androidx-appcompat",
-    "androidx-core-core-ktx",
+    "lifecycle-runtime-ktx",
+    "androidx-room-room-ktx",
     "androidx-activity-compose",
+    "androidx-room-room-runtime",
+    "androidx-work-work-runtime-ktx",
     "androidx-core-core-splashscreen",
     "androidx-lifecycle-lifecycle-runtime-compose",
     "androidx-lifecycle-lifecycle-viewmodel-compose",
-    "androidx-multidex",
-    "androidx-navigation-navigation-compose",
-    "androidx-room-room-ktx",
-    "androidx-room-room-runtime",
-    "androidx-work-work-runtime-ktx",
-    "material3",
-    "lifecycle-runtime-ktx",
-    "core-ktx",
-    "androidx-profileinstaller"
+    "androidx-navigation-navigation-compose"
 ]
 compose = [
     "compose-ui",
@@ -111,11 +84,6 @@ compose = [
     "compose-foundation",
     "compose-ui-graphics",
     "compose-ui-tooling-preview",
-]
-firebase = [
-    "com-google-firebase-firebase-analytics-ktx",
-    "com-google-firebase-firebase-crashlytics-ktx",
-    "com-google-firebase-firebase-perf-ktx"
 ]
 google = [
     "com-google-code-gson"
@@ -136,8 +104,4 @@ squareup = [
 coil = [
     "coil",
     "coil-gif",
-]
-third-party = [
-    "com-onesignal-OneSignal",
-    "revenuecat"
 ]

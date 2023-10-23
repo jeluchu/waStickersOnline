@@ -2,24 +2,15 @@ package com.jeluchu.wastickersonline.core.ui.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navArgument
+import com.jeluchu.wastickersonline.core.utils.Links
 import com.jeluchu.wastickersonline.features.details.view.StickersDetailsView
 import com.jeluchu.wastickersonline.features.sticker.view.DashboardView
-import com.jeluchu.wastickersonline.features.sticker.view.StickerPackType
 
 fun NavGraphBuilder.mainNav(nav: Destinations) {
     composable(Screen.Dashboard) {
         DashboardView(
-            onStickerClick = { sticker ->
-                nav.goToDetails(sticker)
-                /*
-
-                                   act.openActivity(StickerDetailsActivity::class.java) {
-                        putParcelable(EXTRA_STICKERPACK, it)
-                    }
-                    act.openActivityRight()
-
-                 */
-            }
+            onStickerClick = { sticker -> nav.goToDetails(sticker) },
+            onLogoClick = { uri -> uri.openUri(Links.website) }
         )
     }
 }
