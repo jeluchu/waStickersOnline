@@ -4,4 +4,5 @@
     <string name="add_to_whatsapp">Añadir a WhatsApp</string>
     <string name="details_pack_already_added">Se añadió el paquete de stickers a WhatsApp</string>
     <string name="not_added_to_whatsapp">No se añadió el paquete de stickers. Si deseas añadirlo, instala o actualiza WhatsApp</string>
+    <string name="search">Buscar…</string>
 </resources>
