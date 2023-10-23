@@ -53,7 +53,7 @@ class StickerContentProvider : ContentProvider() {
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
-    ): Cursor? =
+    ): Cursor =
         when (MATCHER.match(uri)) {
             METADATA_CODE -> getPackForAllStickerPacks(uri)
             METADATA_CODE_FOR_SINGLE_PACK -> getCursorForSingleStickerPack(uri)
@@ -134,7 +134,7 @@ class StickerContentProvider : ContentProvider() {
         }
     }
 
-    override fun getType(uri: Uri): String? =
+    override fun getType(uri: Uri): String =
         when (MATCHER.match(uri)) {
             METADATA_CODE -> "vnd.android.cursor.dir/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA
             METADATA_CODE_FOR_SINGLE_PACK -> "vnd.android.cursor.item/vnd." + BuildConfig.CONTENT_PROVIDER_AUTHORITY + "." + METADATA

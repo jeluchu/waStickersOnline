@@ -1,6 +1,5 @@
 package com.jeluchu.wastickersonline.features.sticker.view
 
-import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,8 +8,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,11 +22,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import com.jeluchu.jchucomponents.core.states.ListStates
+import com.jeluchu.jchucomponents.ktx.compose.toPainter
+import com.jeluchu.jchucomponents.ktx.packageutils.buildIsTiramisuAndUp
 import com.jeluchu.jchucomponents.ui.accompanist.systemui.SystemStatusBarColors
 import com.jeluchu.jchucomponents.ui.composables.column.ScrollableColumn
 import com.jeluchu.jchucomponents.ui.composables.images.NetworkImage
@@ -60,12 +67,18 @@ fun DashboardView(
 @Composable
 private fun DashboardView(
     state: ListStates<StickerPack>,
-    act: Activity = LocalContext.current as Activity,
     onStickerClick: (StickerPack) -> Unit
 ) = Scaffold(
     topBar = {
         CenterAlignedTopAppBar(
             title = { Text(text = "Stickers") },
+            navigationIcon = {
+                Icon(
+                    modifier = Modifier.size(30.dp),
+                    painter = com.jeluchu.jchucomponents.ui.R.drawable.ic_deco_jeluchu.toPainter(),
+                    contentDescription = ""
+                )
+            },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                 containerColor = primary,
                 titleContentColor = darkness
@@ -73,15 +86,13 @@ private fun DashboardView(
         )
     },
     containerColor = primary
-) {
+) { paddingValues ->
     ScrollableColumn(
-        modifier = Modifier.padding(it)
+        modifier = Modifier.padding(paddingValues)
     ) {
         state.data.forEach {
             Column(
-                modifier = Modifier.clickable {
-                    onStickerClick(it)
-                }
+                modifier = Modifier.clickable { onStickerClick(it) }
             ) {
                 Surface(
                     modifier = Modifier.padding(horizontal = 15.dp),
@@ -99,7 +110,7 @@ private fun DashboardView(
                     contentPadding = PaddingValues(15.dp),
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
-                    items(it.stickers) { sticker ->
+                    items(it.stickers, key = { it }) { sticker ->
                         NetworkImage(
                             modifier = Modifier
                                 .size(90.dp)

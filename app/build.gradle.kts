@@ -18,7 +18,7 @@ android {
         minSdk = 22
         targetSdk = 34
         versionCode = 1
-        versionName = "2.0.1"
+        versionName = "3.0.0"
         vectorDrawables.useSupportLibrary = true
         contentProviderAuthority = "$applicationId.provider.StickerContentProvider"
         manifestPlaceholders["contentProviderAuthority"] = contentProviderAuthority
@@ -80,6 +80,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.browser:browser:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.coil)

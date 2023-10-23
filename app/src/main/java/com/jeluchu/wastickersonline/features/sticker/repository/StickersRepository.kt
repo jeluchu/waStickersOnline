@@ -31,6 +31,7 @@ interface StickersRepository {
                 saveFetchResult = { data ->
                     local.deleteAll()
                     preferences.saveLong(LocalShared.Stickers.stickers, System.currentTimeMillis())
+                    preferences.saveObjectsList(LocalShared.Stickers.stickerPacks, data)
                     data.forEach { local.insertStickers(it.toStickerPackEntity()) }
                 },
                 shouldFetch = {

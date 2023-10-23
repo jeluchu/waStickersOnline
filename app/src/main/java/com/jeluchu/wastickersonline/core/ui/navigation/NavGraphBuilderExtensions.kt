@@ -30,7 +30,7 @@ fun NavGraphBuilder.detailsNav(nav: Destinations) {
         arguments = listOf(navArgument(NavArgs.Sticker.key) { type = StickerPackType })
     ) {
         StickersDetailsView(
-            //onBackClick = { nav.goBack(it) },
+            onBackClick = { nav.goBack(it) },
             //onItemClick = {}
             //onSearchClick = { /*openActivityFromRight(SearchActivity::class.java)*/  },
             //onCategoryClick = { /*showDialogFragment(CategoryDialogFragment())*/ }
