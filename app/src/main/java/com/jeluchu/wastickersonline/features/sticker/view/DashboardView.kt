@@ -7,14 +7,11 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -23,7 +20,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
@@ -33,13 +29,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
@@ -54,25 +48,21 @@ import com.jeluchu.jchucomponents.ktx.compose.toImageVector
 import com.jeluchu.jchucomponents.ktx.compose.toStringRes
 import com.jeluchu.jchucomponents.ktx.strings.empty
 import com.jeluchu.jchucomponents.ui.accompanist.systemui.SystemStatusBarColors
-import com.jeluchu.jchucomponents.ui.animations.lists.Animations
-import com.jeluchu.jchucomponents.ui.animations.lists.animateItem
 import com.jeluchu.jchucomponents.ui.composables.button.FloatingButton
 import com.jeluchu.jchucomponents.ui.composables.button.FloatingButtonSettings
 import com.jeluchu.jchucomponents.ui.composables.column.ScrollableColumn
-import com.jeluchu.jchucomponents.ui.composables.images.NetworkImage
+import com.jeluchu.jchucomponents.ui.composables.loaders.CircularLoading
 import com.jeluchu.jchucomponents.ui.extensions.modifier.cornerRadius
-import com.jeluchu.jchucomponents.ui.extensions.modifier.noRippleClickable
 import com.jeluchu.jchucomponents.ui.foundation.icon.IconLink
-import com.jeluchu.jchucomponents.ui.foundation.lists.ListRow
 import com.jeluchu.jchucomponents.ui.runtime.remember.rememberMutableStateOf
 import com.jeluchu.wastickersonline.R
 import com.jeluchu.wastickersonline.core.extensions.search
+import com.jeluchu.wastickersonline.core.ui.composables.EmptyInfo
 import com.jeluchu.wastickersonline.core.ui.composables.SearchTextField
 import com.jeluchu.wastickersonline.core.ui.theme.darkGreen
 import com.jeluchu.wastickersonline.core.ui.theme.darkness
 import com.jeluchu.wastickersonline.core.ui.theme.milky
 import com.jeluchu.wastickersonline.core.ui.theme.primary
-import com.jeluchu.wastickersonline.core.ui.theme.secondary
 import com.jeluchu.wastickersonline.features.sticker.models.StickerPack
 import com.jeluchu.wastickersonline.features.sticker.viewmodel.StickersViewModel
 
@@ -109,6 +99,7 @@ private fun DashboardView(
     onRateClick: () -> Unit,
 ) {
     val search = rememberMutableStateOf(String.empty())
+    val stickers = state.data.search(query = search.value, param = { it.name })
     var isSearchActive by rememberMutableStateOf(false)
     val isVisible = rememberMutableStateOf(true)
     val nestedScrollConnection = remember {
@@ -158,7 +149,7 @@ private fun DashboardView(
             FloatingButton(
                 isVisible = isVisible.value,
                 floatButton = FloatingButtonSettings(
-                    icon = R.drawable.ic_deco_search,
+                    icon = if (isSearchActive) R.drawable.ic_deco_close else R.drawable.ic_deco_search,
                     tint = milky,
                     background = darkGreen
                 ),
@@ -211,7 +202,7 @@ private fun DashboardView(
                             focusedSupportingTextColor = milky,
                             unfocusedSupportingTextColor = milky,
                             disabledSupportingTextColor = milky,
-                            errorSupportingTextColor= milky,
+                            errorSupportingTextColor = milky,
                             focusedContainerColor = darkness.copy(.6f),
                             unfocusedContainerColor = darkness.copy(.6f),
                             focusedIndicatorColor = Color.Transparent,
@@ -249,45 +240,20 @@ private fun DashboardView(
                 }
             }
 
-            ScrollableColumn {
-                state.data.search(query = search.value, param = { it.name }).forEach {
-                    Column(
-                        modifier = Modifier.noRippleClickable { onStickerClick(it) }
-                    ) {
-                        Surface(
-                            modifier = Modifier.padding(horizontal = 15.dp),
-                            shape = 10.cornerRadius(),
-                            color = darkGreen.copy(.2f),
-                            contentColor = darkness.copy(.7f)
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(5.dp),
-                                text = it.name,
-                                fontWeight = FontWeight.Bold
+            when {
+                state.isLoading -> CircularLoading(isShow = true, colorLoading = darkness)
+                stickers.isEmpty() && !state.isLoading -> EmptyInfo()
+                else -> {
+                    ScrollableColumn {
+                        stickers.forEach { pack ->
+                            StickerPackItem(
+                                stickerPack = pack,
+                                onClick = onStickerClick
                             )
-                        }
-
-                        ListRow(
-                            contentPadding = PaddingValues(15.dp),
-                            horizontalArrangement = Arrangement.spacedBy(5.dp),
-                        ) {
-                            items(it.stickers, key = { it }) { sticker ->
-                                NetworkImage(
-                                    modifier = Modifier
-                                        .size(90.dp)
-                                        .animateItem(Animations.Scale)
-                                        .clip(10.cornerRadius())
-                                        .background(secondary),
-                                    url = sticker.imageFile,
-                                    contentScale = ContentScale.FillBounds
-                                )
-                            }
                         }
                     }
                 }
             }
         }
-
-
     }
 }

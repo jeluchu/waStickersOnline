@@ -3,17 +3,7 @@
 
     <!-- Fonts -->
 
-    <dimen name="space_16_text">16sp</dimen>
-
     <!-- Utils -->
-    <dimen name="space_8">8dp</dimen>
-    <dimen name="space_16">16dp</dimen>
-    <dimen name="space_24">24dp</dimen>
-    <dimen name="space_60">60dp</dimen>
 
-
-    <dimen name="preview_side_margin">16dp</dimen>
-    <dimen name="margin_from_tray_to_name">16dp</dimen>
-    <dimen name="fading_edge_length">8dp</dimen>
 
 </resources>
